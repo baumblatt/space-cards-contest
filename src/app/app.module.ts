@@ -11,6 +11,8 @@ import {StoreModule} from '@ngrx/store';
 import {EffectsModule} from '@ngrx/effects';
 import {AppEffects} from './store/effects/app.effects';
 import {globalReducer, metaReducers} from './store/reducers/global.reducer';
+import { ServiceWorkerModule } from '@angular/service-worker';
+import { environment } from '../environments/environment';
 
 registerLocaleData(localeBR, 'pt', localeBRExtra);
 
@@ -23,7 +25,8 @@ registerLocaleData(localeBR, 'pt', localeBRExtra);
 		AppRoutingModule,
 		BrowserAnimationsModule,
 		StoreModule.forRoot(globalReducer, {metaReducers}),
-		EffectsModule.forRoot([AppEffects])
+		EffectsModule.forRoot([AppEffects]),
+		ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
 	],
 	providers: [],
 	bootstrap: [AppComponent]
