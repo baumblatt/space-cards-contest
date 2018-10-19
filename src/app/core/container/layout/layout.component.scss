@@ -1,5 +1,28 @@
-.sidenav-container {
-  height: 100%;
+mat-sidenav-container.sidenav-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  overflow: hidden;
+
+  mat-sidenav-content.mat-sidenav-content {
+    overflow: hidden;
+
+    mat-toolbar.mat-toolbar.mat-primary {
+      position: relative;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1;
+    }
+
+    div.router-container {
+      position: relative;
+      height: 100%;
+    }
+  }
 }
 
 .sidenav {
@@ -10,8 +33,4 @@
   background: inherit;
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}
+
