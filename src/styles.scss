@@ -38,6 +38,7 @@ body.app-theme {
 	background-image: url("assets/images/background/1920x1080.jpg");
 	@media (max-width: 599px) {
 		background-image: url("assets/images/background/480x600.png");
+		background-size: cover;
 	}
 }
 

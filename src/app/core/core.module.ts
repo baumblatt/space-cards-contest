@@ -19,8 +19,10 @@ import {LoginComponent} from './container/login/login.component';
 import {SalasComponent} from './container/salas/salas.component';
 
 import {CoreRoutingModule} from './core-routing.module';
+import {CartasEffects} from './store/effects/cartas.effects';
 import {UsuarioEffects} from './store/effects/usuario.effects';
 import {globalReducer} from './store/reducers/global.reducers';
+import { CartaComponent } from './container/carta/carta.component';
 
 @NgModule({
 	imports: [
@@ -34,9 +36,9 @@ import {globalReducer} from './store/reducers/global.reducers';
 		MatIconModule,
 		MatListModule,
 		StoreModule.forFeature('core', globalReducer),
-		EffectsModule.forFeature([UsuarioEffects]),
+		EffectsModule.forFeature([CartasEffects, UsuarioEffects]),
 	],
-	declarations: [LayoutComponent, LoginComponent, HomeComponent, SalasComponent]
+	declarations: [LayoutComponent, LoginComponent, HomeComponent, SalasComponent, CartaComponent]
 })
 export class CoreModule {
 	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
