@@ -1,4 +1,5 @@
 import {registerLocaleData} from '@angular/common';
+import {HttpClientModule} from '@angular/common/http';
 import localeBRExtra from '@angular/common/locales/extra/pt';
 import localeBR from '@angular/common/locales/pt';
 import {LOCALE_ID, NgModule} from '@angular/core';
@@ -28,6 +29,7 @@ registerLocaleData(localeBR, 'pt', localeBRExtra);
 		BrowserModule,
 		AppRoutingModule,
 		BrowserAnimationsModule,
+		HttpClientModule,
 		AngularFireModule.initializeApp(environment.firebase),
 		AngularFireAuthModule,
 		AngularFireFunctionsModule,
