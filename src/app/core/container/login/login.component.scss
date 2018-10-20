@@ -1,0 +1,17 @@
+div.container-component {
+	text-align: center;
+
+	mat-card {
+		background: transparent;
+
+		div.row {
+			div.col {
+				img {
+					max-width: 25vw;
+				}
+			}
+		}
+	}
+
+
+}
