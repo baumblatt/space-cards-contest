@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
@@ -10,7 +10,8 @@ import {getCarta} from '../../store/selectors/cartas.selectors';
 @Component({
 	selector: 'app-carta',
 	templateUrl: './carta.component.html',
-	styleUrls: ['./carta.component.scss']
+	styleUrls: ['./carta.component.scss'],
+	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CartaComponent implements OnInit {
 

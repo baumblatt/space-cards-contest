@@ -8,11 +8,13 @@ import {
 	MatIconRegistry,
 	MatListModule,
 	MatSidenavModule,
-	MatToolbarModule
+	MatTabsModule,
+	MatToolbarModule,
 } from '@angular/material';
 import {DomSanitizer} from '@angular/platform-browser';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
+import {CartaComponent} from './container/carta/carta.component';
 import {HomeComponent} from './container/home/home.component';
 import {LayoutComponent} from './container/layout/layout.component';
 import {LoginComponent} from './container/login/login.component';
@@ -22,19 +24,19 @@ import {CoreRoutingModule} from './core-routing.module';
 import {CartasEffects} from './store/effects/cartas.effects';
 import {UsuarioEffects} from './store/effects/usuario.effects';
 import {globalReducer} from './store/reducers/global.reducers';
-import { CartaComponent } from './container/carta/carta.component';
 
 @NgModule({
 	imports: [
 		CommonModule,
 		CoreRoutingModule,
 		LayoutModule,
-		MatCardModule,
-		MatToolbarModule,
 		MatButtonModule,
-		MatSidenavModule,
+		MatCardModule,
 		MatIconModule,
 		MatListModule,
+		MatSidenavModule,
+		MatTabsModule,
+		MatToolbarModule,
 		StoreModule.forFeature('core', globalReducer),
 		EffectsModule.forFeature([CartasEffects, UsuarioEffects]),
 	],

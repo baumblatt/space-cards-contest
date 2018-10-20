@@ -1,10 +1,51 @@
 <div class="container-component">
-  <mat-card class="mat-elevation-z0" *ngIf="carta$ | async as carta">
-    <img mat-card-image [src]="carta.images[0]" alt="">
-    <mat-card-content>
-    </mat-card-content>
-    <mat-card-actions>
-      <button mat-button (click)="vai()">CLONAR</button>
-    </mat-card-actions>
-  </mat-card>
+	<mat-card class="mat-elevation-z6" *ngIf="carta$ | async as carta">
+		<mat-card-header>
+			<img mat-card-avatar src="assets/images/icones/galaxias.svg" *ngIf="carta.category === 'Galaxy'">
+			<img mat-card-avatar src="assets/images/icones/exoplanetas.svg" *ngIf="carta.category === 'Exoplanetas'">
+			<img mat-card-avatar src="assets/images/icones/nebulosas.svg" *ngIf="carta.category === 'Nebulosas'">
+			<mat-card-title>
+				<h4 class="mat-h4">{{carta.name || carta.code}}</h4>
+			</mat-card-title>
+		</mat-card-header>
+		<img mat-card-image [src]="carta.images[0]" alt="">
+		<mat-card-content>
+			<mat-tab-group mat-stretch-tabs backgroundColor="primary">
+				<mat-tab label="Information">
+					<div class="descricao">
+						{{carta.description}}
+					</div>
+				</mat-tab>
+				<mat-tab label="Card">
+					<mat-list>
+						<mat-list-item>
+							<h2 matLine>Distance</h2>
+							<div style="float: right; text-wrap: avoid;">{{carta.distance.display}}</div>
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							Brightness
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							Major Axis Size
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							Minor Axis Size
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							Radial Velocity
+						</mat-list-item>
+					</mat-list>
+				</mat-tab>
+			</mat-tab-group>
+
+
+		</mat-card-content>
+		<mat-card-actions>
+			<button mat-button (click)="vai()">CLONAR</button>
+		</mat-card-actions>
+	</mat-card>
 </div>

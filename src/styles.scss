@@ -11,11 +11,44 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$md-space-purple: (
+		50 : #eaeaf1,
+		100 : #cbc9dc,
+		200 : #a9a6c5,
+		300 : #8782ad,
+		400 : #6d679c,
+		500 : #534c8a,
+		600 : #4c4582,
+		700 : #423c77,
+		800 : #39336d,
+		900 : #29245a,
+		A100 : #a79eff,
+		A200 : #796bff,
+		A400 : #4b38ff,
+		A700 : #341fff,
+		contrast: (
+				50 : #000000,
+				100 : #000000,
+				200 : #000000,
+				300 : #000000,
+				400 : #ffffff,
+				500 : #ffffff,
+				600 : #ffffff,
+				700 : #ffffff,
+				800 : #ffffff,
+				900 : #ffffff,
+				A100 : #000000,
+				A200 : #000000,
+				A400 : #ffffff,
+				A700 : #ffffff,
+		)
+);
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$space-cards-contest-primary: mat-palette($mat-green);
-$space-cards-contest-accent: mat-palette($mat-red);
+$space-cards-contest-primary: mat-palette($md-space-purple);
+$space-cards-contest-accent: mat-palette($mat-green);
 
 // The warn palette is optional (defaults to red).
 $space-cards-contest-warn: mat-palette($mat-red);
