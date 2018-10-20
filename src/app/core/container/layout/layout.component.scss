@@ -6,19 +6,32 @@ mat-sidenav-container.sidenav-container {
   bottom: 0;
 
   overflow: hidden;
+  background: transparent;
 
   mat-sidenav-content.mat-sidenav-content {
     overflow: hidden;
+    background: transparent;
 
-    mat-toolbar.mat-toolbar.mat-primary {
+    mat-toolbar.mat-toolbar.header {
+      background: transparent;
       position: relative;
       top: 0;
       left: 0;
       right: 0;
       z-index: 1;
+
+      img {
+        max-height: 100%;
+        position: absolute;
+        right: calc(50vw - 170px);
+        @media (max-width: 599px) {
+          right: calc(50vw - 70px);
+        }
+      }
     }
 
     div.router-container {
+      background: transparent;
       position: relative;
       height: 100%;
     }
@@ -29,8 +42,5 @@ mat-sidenav-container.sidenav-container {
   width: 200px;
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
-}
 
 
