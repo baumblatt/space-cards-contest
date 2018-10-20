@@ -1,11 +1,15 @@
-import {NgModule} from '@angular/core';
+import {LayoutModule} from '@angular/cdk/layout';
 import {CommonModule} from '@angular/common';
+import {NgModule} from '@angular/core';
+import {MatButtonModule, MatCardModule, MatIconModule, MatListModule, MatSidenavModule, MatToolbarModule} from '@angular/material';
+import {EffectsModule} from '@ngrx/effects';
+import {StoreModule} from '@ngrx/store';
+import {LayoutComponent} from './container/layout/layout.component';
+import {LoginComponent} from './container/login/login.component';
 
 import {CoreRoutingModule} from './core-routing.module';
-import {LayoutComponent} from './container/layout/layout.component';
-import {LayoutModule} from '@angular/cdk/layout';
-import {MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule, MatCardModule} from '@angular/material';
-import {LoginComponent} from './container/login/login.component';
+import {UsuarioEffects} from './store/effects/usuario.effects';
+import {globalReducer} from './store/reducers/global.reducers';
 
 @NgModule({
 	imports: [
@@ -17,7 +21,9 @@ import {LoginComponent} from './container/login/login.component';
 		MatButtonModule,
 		MatSidenavModule,
 		MatIconModule,
-		MatListModule
+		MatListModule,
+		StoreModule.forFeature('core', globalReducer),
+		EffectsModule.forFeature([UsuarioEffects]),
 	],
 	declarations: [LayoutComponent, LoginComponent]
 })

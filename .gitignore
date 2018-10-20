@@ -6,6 +6,7 @@
 /out-tsc
 /.firebase
 /www
+/functions/lib
 
 
 # dependencies
@@ -41,4 +42,4 @@ firebase-debug.log
 
 # System Files
 .DS_Store
-Thumbs.d
+Thumbs
