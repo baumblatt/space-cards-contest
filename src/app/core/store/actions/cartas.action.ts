@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import {Navigation} from '../../../store/actions/router.action';
 
 export const CARTAS = '[Cartas] Recuperar cartas';
 export const CARTAS_FAIL = '[Cartas]  Recuperar cartas(Fail)';
@@ -19,5 +20,6 @@ export class CartasFail implements Action {
 
 
 export type CartasAction =
-	| Castas
-	| CartasFail;
+	| Cartas
+	| CartasFail
+	| Navigation;
