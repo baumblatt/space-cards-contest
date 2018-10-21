@@ -10,3 +10,8 @@ export const getMao = createSelector(
 	getBaralhoState,
 	state => state.mao
 );
+
+export const getCriterio = createSelector(
+	getBaralhoState,
+	state => state.mesa && state.mesa.criterio ? state.mesa.criterio.nome : undefined
+);

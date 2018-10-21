@@ -3,9 +3,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Mao} from '../../models/mao.model';
 import {Sala} from '../../models/sala.model';
+import {EscolherCriterio} from '../../store/actions/baralho.action';
 import {IniciarJogo} from '../../store/actions/sala.action';
 import {SalaState} from '../../store/reducers/sala.reducer';
-import {getMao} from '../../store/selectors/baralho.selectors';
+import {getCriterio, getMao} from '../../store/selectors/baralho.selectors';
 import {getSala} from '../../store/selectors/sala.selectors';
 
 @Component({
@@ -19,15 +20,22 @@ export class SalaComponent implements OnInit {
 
 	mao$: Observable<Mao>;
 
+	criterio$: Observable<string>;
+
 	constructor(private store: Store<SalaState>) {
 	}
 
 	ngOnInit() {
 		this.sala$ = this.store.pipe(select(getSala));
 		this.mao$ = this.store.pipe(select(getMao));
+		this.criterio$ = this.store.pipe(select(getCriterio));
 	}
 
 	iniciar(sala: Sala) {
 		this.store.dispatch(new IniciarJogo(sala));
+	}
+
+	escolher(criterio: string) {
+		this.store.dispatch(new EscolherCriterio(criterio));
 	}
 }

@@ -27,8 +27,9 @@ mat-card.mao {
 	padding: 0;
 
 	img.mat-card-image {
-		width: 100%;
 		margin: 0;
+		height: calc(30vw - 3px);
+		width: calc(100vw - 34px);
 	}
 
 	mat-card-header {
@@ -36,11 +37,11 @@ mat-card.mao {
 		border-radius: 10px 10px 0 0;
 
 		mat-card-title {
-			//margin-bottom: 0;
-
 			h4.mat-h4 {
-				//margin-bottom: 0;
+				margin-bottom: 0;
+				padding-top: 8px;
 			}
+
 		}
 	}
 
