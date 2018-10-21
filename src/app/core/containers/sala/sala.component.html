@@ -1,5 +1,18 @@
 <div class="container-component">
-  <div class="jogadores" *ngIf="sala$ | async as sala">
-    <app-jogadores-grid [jogador1]="sala.jogador1" [jogador2]="sala.jogador2" [jogador3]="sala.jogador3" [jogador4]="sala.jogador4"></app-jogadores-grid>
-  </div>
+	<ng-container *ngIf="sala$ | async as sala">
+		<div class="jogadores">
+			<app-jogadores-grid [jogador1]="sala.jogador1" [jogador2]="sala.jogador2" [jogador3]="sala.jogador3"
+								[jogador4]="sala.jogador4"></app-jogadores-grid>
+		</div>
+
+		<mat-card *ngIf="!sala.iniciado" class="codigo-acesso mat-elevation-z6">
+			<img src="assets/images/icones/spaceship.svg" alt="">
+			<mat-card-content>
+				<h3 class="mat-h3">Room Code</h3>
+				<h1 class="mat-h1">{{sala.codigoAcesso}}</h1>
+				<button mat-raised-button color="primary" [disabled]="!sala.jogador2">Play</button>
+			</mat-card-content>
+		</mat-card>
+	</ng-container>
+
 </div>

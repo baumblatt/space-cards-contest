@@ -1,8 +1,7 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Sala} from '../../models/sala.model';
-import {ObservarSalaUnsubscribe} from '../../store/actions/sala.action';
 import {SalaState} from '../../store/reducers/sala.reducer';
 import {getSala} from '../../store/selectors/sala.selectors';
 
@@ -11,7 +10,7 @@ import {getSala} from '../../store/selectors/sala.selectors';
 	templateUrl: './sala.component.html',
 	styleUrls: ['./sala.component.scss']
 })
-export class SalaComponent implements OnInit, OnDestroy {
+export class SalaComponent implements OnInit {
 
 	sala$: Observable<Sala>;
 
@@ -20,9 +19,5 @@ export class SalaComponent implements OnInit, OnDestroy {
 
 	ngOnInit() {
 		this.sala$ = this.store.pipe(select(getSala));
-	}
-
-	ngOnDestroy(): void {
-		this.store.dispatch(new ObservarSalaUnsubscribe());
 	}
 }

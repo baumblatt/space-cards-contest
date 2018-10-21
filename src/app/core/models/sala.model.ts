@@ -7,4 +7,5 @@ export interface Sala {
 	jogador2?: Usuario;
 	jogador3?: Usuario;
 	jogador4?: Usuario;
+	iniciado?: boolean;
 }
