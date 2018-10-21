@@ -30,6 +30,7 @@ import {SalaComponent} from './containers/sala/sala.component';
 import {SalasComponent} from './containers/salas/salas.component';
 
 import {CoreRoutingModule} from './core-routing.module';
+import {BaralhoEffects} from './store/effects/baralho.effects';
 import {CartasEffects} from './store/effects/cartas.effects';
 import {SalaEffects} from './store/effects/sala.effects';
 import {SnackBarEffect} from './store/effects/snack-bar.effect';
@@ -54,7 +55,7 @@ import {globalReducer} from './store/reducers/global.reducers';
 		MatToolbarModule,
 		ReactiveFormsModule,
 		StoreModule.forFeature('core', globalReducer),
-		EffectsModule.forFeature([CartasEffects, SalaEffects, SnackBarEffect, UsuarioEffects]),
+		EffectsModule.forFeature([BaralhoEffects, CartasEffects, SalaEffects, SnackBarEffect, UsuarioEffects]),
 	],
 	declarations: [
 		CartaCardComponent,

@@ -68,6 +68,31 @@ export class ObservarSalaError implements Action {
 	}
 }
 
+export const INICIAR_JOGO = '[Sala] Iniciar jogo.';
+export const INICIAR_JOGO_SUCCESS = '[Sala] Iniciar jogo (Success).';
+export const INICIAR_JOGO_FAIL = '[Sala] Iniciar jogo (Fail).';
+
+export class IniciarJogo implements Action {
+	readonly type = INICIAR_JOGO;
+
+	constructor(public payload: Sala) {
+	}
+}
+
+export class IniciarJogoSuccess implements Action {
+	readonly type = INICIAR_JOGO_SUCCESS;
+
+	constructor(public payload: Sala) {
+	}
+}
+
+export class IniciarJogoFail implements Action {
+	readonly type = INICIAR_JOGO_FAIL;
+
+	constructor(public payload: any) {
+	}
+}
+
 export type SalaAction =
 	| CriarSala
 	| CriarSalaSuccess
@@ -78,4 +103,7 @@ export type SalaAction =
 	| EntrarSalaFail
 	| ObservarSalaNext
 	| ObservarSalaError
+	| IniciarJogo
+	| IniciarJogoSuccess
+	| IniciarJogoFail
 	| Navigation;

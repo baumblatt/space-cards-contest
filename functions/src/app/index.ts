@@ -1,9 +1,9 @@
 import * as admin from 'firebase-admin';
 import * as functions from 'firebase-functions';
 import {HttpsError} from 'firebase-functions/lib/providers/https';
-import {region} from '../service-account-key';
+import * as _ from 'lodash';
 
-export const appCreateProfile = functions.region(region).auth.user()
+export const appCreateProfile = functions.auth.user()
 	.onCreate((user) => {
 		const {uid, displayName, photoURL, phoneNumber, email} = user;
 
@@ -12,7 +12,7 @@ export const appCreateProfile = functions.region(region).auth.user()
 		}, {merge: true});
 	});
 
-export const entrarSala = functions.region(region).https.onCall(async (data, context) => {
+export const entrarSala = functions.https.onCall(async (data, context) => {
 	if (!context.auth && data.jogador.uid === context.auth.uid) {
 		return new HttpsError('failed-precondition', 'Usuário não autenticado.', 'O usuário deve estar autenticado.');
 	}
@@ -49,4 +49,59 @@ export const entrarSala = functions.region(region).https.onCall(async (data, con
 	}
 
 	return new HttpsError('unavailable', 'A sala não existe ou o jogo já foi iniciado.', 'A sala não existe ou o jogo já foi iniciado.');
+});
+
+export const iniciarJogo = functions.https.onCall(async (data, context) => {
+	// if (!context.auth && data.jogador1.uid === context.auth.uid) {
+	// 	return new HttpsError('failed-precondition', 'Usuário não autenticado.', 'O usuário deve estar autenticado.');
+	// }
+
+	const cartasSnapshot = await admin.firestore().collection('cartas').get();
+	let cartas: any[] = cartasSnapshot.docs.map(doc => ({...doc.data()}));
+
+	cartas = _.shuffle(cartas);
+
+	const tamanho = 3;
+
+	let jogador1 = {cartas: [], rodada: 1, mestre: true};
+	for (let i = 0; i < tamanho; i++) {
+		jogador1.cartas.push(cartas.pop());
+	}
+
+	await admin.firestore().doc(`salas/${data.id}/jogador1/1`).set(jogador1, {merge: true});
+
+	const jogador2 = {cartas: [], rodada: 1, mestre: false};
+	for (let i = 0; i < tamanho; i++) {
+		jogador2.cartas.push(cartas.pop());
+	}
+
+	await admin.firestore().doc(`salas/${data.id}/jogador2/1`).set(jogador2, {merge: true});
+
+	if (data.jogador3) {
+		const jogador3 = {cartas: [], rodada: 1, mestre: false};
+		for (let i = 0; i < tamanho; i++) {
+			jogador3.cartas.push(cartas.pop());
+		}
+
+		await admin.firestore().doc(`salas/${data.id}/jogador3/1`).set(jogador3, {merge: true});
+	}
+
+	if (data.jogador4) {
+		const jogador4 = {cartas: [], rodada: 1, mestre: false};
+		for (let i = 0; i < tamanho; i++) {
+			jogador4.cartas.push(cartas.pop());
+		}
+
+		await admin.firestore().doc(`salas/${data.id}/jogador4/1`).set(jogador4, {merge: true});
+	}
+
+	const sala = {...data, iniciado: true};
+	await admin.firestore().doc(`salas/${data.id}`).set(sala, {merge: true});
+
+	return sala;
+});
+
+export const iniciarRodada = functions.https.onCall(async (data, context) => {
+
+
 });

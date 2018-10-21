@@ -5,14 +5,73 @@
 								[jogador4]="sala.jogador4"></app-jogadores-grid>
 		</div>
 
-		<mat-card *ngIf="!sala.iniciado" class="codigo-acesso mat-elevation-z6">
+		<mat-card *ngIf="!sala.iniciado; else mao" class="codigo-acesso mat-elevation-z6">
 			<img src="assets/images/icones/spaceship.svg" alt="">
 			<mat-card-content>
 				<h3 class="mat-h3">Room Code</h3>
 				<h1 class="mat-h1">{{sala.codigoAcesso}}</h1>
-				<button mat-raised-button color="primary" [disabled]="!sala.jogador2">Play</button>
+				<button mat-raised-button color="primary" [disabled]="!sala.jogador2" (click)="iniciar(sala)">Play</button>
 			</mat-card-content>
 		</mat-card>
+
+		<ng-template #mao>
+			<mat-card *ngIf="mao$ | async as mao" class="mao mat-elevation-z6">
+				<mat-card-header>
+					<img mat-card-avatar src="assets/images/icones/galaxias.svg" *ngIf="mao.cartas[0].category === 'Galaxy'">
+					<img mat-card-avatar src="assets/images/icones/exoplanetas.svg" *ngIf="mao.cartas[0].category === 'Exoplanetas'">
+					<img mat-card-avatar src="assets/images/icones/nebulosas.svg" *ngIf="mao.cartas[0].category === 'Nebulosas'">
+					<mat-card-title>
+						<h4 class="mat-h4">{{mao.cartas[0].name || mao.cartas[0].code}}</h4>
+					</mat-card-title>
+				</mat-card-header>
+				<img mat-card-image [src]="mao.cartas[0].images[0]" alt="">
+				<mat-card-content>
+					<mat-list>
+						<mat-list-item>
+							<h2 matLine class="mat-h2">
+								Distance
+								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].distance.display}}</div>
+							</h2>
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							<h2 matLine class="mat-h2">
+								Brightness
+								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].magnitude.display}}</div>
+							</h2>
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							<h2 matLine class="mat-h2">
+								Major Axis Size
+								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].majaxis.display}}</div>
+							</h2>
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							<h2 matLine class="mat-h2">
+								Minor Axis Size
+								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].minaxis.display}}</div>
+							</h2>
+						</mat-list-item>
+						<mat-divider></mat-divider>
+						<mat-list-item>
+							<h2 matLine class="mat-h2">
+								Radial Velocity
+								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].velocity.display}}</div>
+							</h2>
+						</mat-list-item>
+					</mat-list>
+				</mat-card-content>
+				<mat-card-actions>
+					<button mat-raised-button color="primary" *ngIf="mao.mestre; else aguarde">Contest!</button>
+					<ng-template #aguarde>
+						<button mat-button>Please wait...</button>
+					</ng-template>
+				</mat-card-actions>
+			</mat-card>
+		</ng-template>
+
 	</ng-container>
 
 </div>

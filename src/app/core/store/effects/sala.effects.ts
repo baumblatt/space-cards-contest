@@ -22,6 +22,11 @@ import {
 	ENTRAR_SALA_SUCCESS,
 	EntrarSalaFail,
 	EntrarSalaSuccess,
+	INICIAR_JOGO,
+	INICIAR_JOGO_FAIL,
+	INICIAR_JOGO_SUCCESS,
+	IniciarJogoFail,
+	IniciarJogoSuccess,
 	ObservarSalaError,
 	ObservarSalaNext
 } from '../actions/sala.action';
@@ -113,6 +118,36 @@ export class SalaEffects {
 		map(() => new ShowSnackBar({
 			mensagem: 'Ops, unable to join the room, try again later.',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-warn']}
+		})),
+	);
+
+	@Effect()
+	iniciarJogo$ = this.actions$.pipe(
+		ofType(INICIAR_JOGO),
+		pluck('payload'),
+		switchMap((sala) => this.fns.httpsCallable('iniciarJogo')(sala).pipe(
+			map((result) => new IniciarJogoSuccess(result)),
+			catchError((error) => of(new IniciarJogoFail(error))),
+		)),
+	);
+
+	@Effect()
+	iniciarJogoSuccess$ = this.actions$.pipe(
+		ofType(INICIAR_JOGO_SUCCESS),
+		pluck('payload'),
+		map(() => new ShowSnackBar({
+			mensagem: 'The game was started successfully',
+			config: {duration: 6000, panelClass: ['mat-snack-bar-primary']}
+		})),
+	);
+
+	@Effect()
+	iniciarJogoFail$ = this.actions$.pipe(
+		ofType(INICIAR_JOGO_FAIL),
+		pluck('payload'),
+		map(() => new ShowSnackBar({
+			mensagem: 'Ops, failure starting the game, try again later',
+			config: {duration: 6000, panelClass: ['mat-snack-bar-warn']}
 		})),
 	);
 
