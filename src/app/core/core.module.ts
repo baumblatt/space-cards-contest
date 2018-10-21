@@ -6,26 +6,28 @@ import {
 	MatCardModule,
 	MatGridListModule,
 	MatIconModule,
-	MatIconRegistry,
 	MatListModule,
 	MatSidenavModule,
+	MatSnackBarModule,
 	MatTabsModule,
 	MatToolbarModule,
 } from '@angular/material';
-import {DomSanitizer} from '@angular/platform-browser';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
 import {CartaCardComponent} from './components/carta-card/carta-card.component';
 import {CartasGridComponent} from './components/cartas-grid/cartas-grid.component';
+import {JogadoresGridComponent} from './components/jogadores-grid/jogadores-grid.component';
 import {CartaComponent} from './containers/carta/carta.component';
 import {CartasComponent} from './containers/cartas/cartas.component';
 import {HomeComponent} from './containers/home/home.component';
 import {LayoutComponent} from './containers/layout/layout.component';
 import {LoginComponent} from './containers/login/login.component';
+import {SalaComponent} from './containers/sala/sala.component';
 import {SalasComponent} from './containers/salas/salas.component';
 
 import {CoreRoutingModule} from './core-routing.module';
 import {CartasEffects} from './store/effects/cartas.effects';
+import {SalaEffects} from './store/effects/sala.effects';
 import {UsuarioEffects} from './store/effects/usuario.effects';
 import {globalReducer} from './store/reducers/global.reducers';
 
@@ -39,23 +41,26 @@ import {globalReducer} from './store/reducers/global.reducers';
 		MatGridListModule,
 		MatIconModule,
 		MatListModule,
+		MatSnackBarModule,
 		MatSidenavModule,
 		MatTabsModule,
 		MatToolbarModule,
 		StoreModule.forFeature('core', globalReducer),
-		EffectsModule.forFeature([CartasEffects, UsuarioEffects]),
+		EffectsModule.forFeature([CartasEffects, SalaEffects, UsuarioEffects]),
 	],
-	declarations: [LayoutComponent, LoginComponent, HomeComponent, SalasComponent, CartaComponent, CartasComponent, CartasGridComponent, CartaCardComponent]
+	declarations: [
+		CartaCardComponent,
+		CartaComponent,
+		CartasComponent,
+		CartasGridComponent,
+		HomeComponent,
+		JogadoresGridComponent,
+		LayoutComponent,
+		LoginComponent,
+		SalaComponent,
+		SalasComponent,
+	],
 })
 export class CoreModule {
-	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {
-		this.iconRegistry.addSvgIcon('astronaut',
-			this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/icones/astronaut.svg'));
-		this.iconRegistry.addSvgIcon('moon',
-			this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/icones/moon.svg'));
-		this.iconRegistry.addSvgIcon('spaceship',
-			this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/icones/spaceship.svg'));
-		this.iconRegistry.addSvgIcon('telescope',
-			this.sanitizer.bypassSecurityTrustResourceUrl('assets/images/icones/telescope.svg'));
-	}
+
 }

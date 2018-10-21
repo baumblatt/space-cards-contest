@@ -1,0 +1,5 @@
+<div class="container-component">
+  <div class="jogadores" *ngIf="sala$ | async as sala">
+    <app-jogadores-grid [jogador1]="sala.jogador1" [jogador2]="sala.jogador2" [jogador3]="sala.jogador3" [jogador4]="sala.jogador4"></app-jogadores-grid>
+  </div>
+</div>

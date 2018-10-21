@@ -5,6 +5,7 @@ import {CartasComponent} from './containers/cartas/cartas.component';
 import {HomeComponent} from './containers/home/home.component';
 import {LayoutComponent} from './containers/layout/layout.component';
 import {LoginComponent} from './containers/login/login.component';
+import {SalaComponent} from './containers/sala/sala.component';
 import {SalasComponent} from './containers/salas/salas.component';
 import {AuthGuard} from './guards/auth.guard';
 
@@ -17,6 +18,7 @@ const routes: Routes = [
 			{path: 'home', component: HomeComponent},
 			{path: 'cartas', component: CartasComponent},
 			{path: 'carta/:id', component: CartaComponent},
+			{path: 'sala/:id', component: SalaComponent},
 		]
 	},
 	{path: 'login', component: LoginComponent}

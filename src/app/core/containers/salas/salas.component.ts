@@ -1,5 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import {Component} from '@angular/core';
 import {Store} from '@ngrx/store';
+import {CriarSala} from '../../store/actions/sala.action';
 import {CoreState} from '../../store/reducers/global.reducers';
 
 @Component({
@@ -7,12 +8,12 @@ import {CoreState} from '../../store/reducers/global.reducers';
 	templateUrl: './salas.component.html',
 	styleUrls: ['./salas.component.scss']
 })
-export class SalasComponent implements OnInit {
+export class SalasComponent {
 
 	constructor(private store: Store<CoreState>) {
 	}
 
-	ngOnInit() {
+	create() {
+		this.store.dispatch(new CriarSala());
 	}
-
 }
