@@ -4,7 +4,7 @@ import {CARTAS, CartasAction} from '../actions/cartas.action';
 
 export const cartasAdapter: EntityAdapter<Carta> = createEntityAdapter<Carta>({
 	selectId: (a) => a.id,
-	sortComparer: (a, b) => a.name < b.name ? -1 : 1,
+	sortComparer: (a, b) => (a.name || a.code) < (b.name || b.code) ? -1 : 1,
 });
 
 export interface CartasState extends EntityState<Carta> {

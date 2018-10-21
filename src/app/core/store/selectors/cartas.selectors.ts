@@ -9,7 +9,7 @@ export const getCartasState = createSelector(
 
 export const getCartas = createSelector(
 	getCartasState,
-	state => cartasAdapter.getSelectors().selectAll(state)
+	state => cartasAdapter.getSelectors().selectAll(state).filter(carta => !!carta.thumbnail)
 );
 
 export const getCarta = createSelector(

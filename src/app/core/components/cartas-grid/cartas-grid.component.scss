@@ -1,0 +1,14 @@
+mat-grid-list {
+	margin: 16px;
+	mat-grid-tile {
+		img {
+			width: 100%;
+			border-radius: 8px;
+		}
+
+		mat-grid-tile-footer {
+			border-radius: 0 0 8px 8px;
+			height: 36px;
+		}
+	}
+}

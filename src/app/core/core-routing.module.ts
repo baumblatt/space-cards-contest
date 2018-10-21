@@ -1,6 +1,7 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
 import {CartaComponent} from './container/carta/carta.component';
+import {CartasComponent} from './container/cartas/cartas.component';
 import {HomeComponent} from './container/home/home.component';
 import {LayoutComponent} from './container/layout/layout.component';
 import {LoginComponent} from './container/login/login.component';
@@ -14,6 +15,7 @@ const routes: Routes = [
 			{path: '', pathMatch: 'full', redirectTo: 'salas'},
 			{path: 'salas', component: SalasComponent},
 			{path: 'home', component: HomeComponent},
+			{path: 'cartas', component: CartasComponent},
 			{path: 'carta/:id', component: CartaComponent},
 		]
 	},

@@ -4,6 +4,7 @@ import {NgModule} from '@angular/core';
 import {
 	MatButtonModule,
 	MatCardModule,
+	MatGridListModule,
 	MatIconModule,
 	MatIconRegistry,
 	MatListModule,
@@ -14,7 +15,9 @@ import {
 import {DomSanitizer} from '@angular/platform-browser';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
+import {CartasGridComponent} from './components/cartas-grid/cartas-grid.component';
 import {CartaComponent} from './container/carta/carta.component';
+import {CartasComponent} from './container/cartas/cartas.component';
 import {HomeComponent} from './container/home/home.component';
 import {LayoutComponent} from './container/layout/layout.component';
 import {LoginComponent} from './container/login/login.component';
@@ -32,6 +35,7 @@ import {globalReducer} from './store/reducers/global.reducers';
 		LayoutModule,
 		MatButtonModule,
 		MatCardModule,
+		MatGridListModule,
 		MatIconModule,
 		MatListModule,
 		MatSidenavModule,
@@ -40,7 +44,7 @@ import {globalReducer} from './store/reducers/global.reducers';
 		StoreModule.forFeature('core', globalReducer),
 		EffectsModule.forFeature([CartasEffects, UsuarioEffects]),
 	],
-	declarations: [LayoutComponent, LoginComponent, HomeComponent, SalasComponent, CartaComponent]
+	declarations: [LayoutComponent, LoginComponent, HomeComponent, SalasComponent, CartaComponent, CartasComponent, CartasGridComponent]
 })
 export class CoreModule {
 	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {

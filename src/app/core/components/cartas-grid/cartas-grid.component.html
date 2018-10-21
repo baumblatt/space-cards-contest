@@ -1,0 +1,6 @@
+<mat-grid-list cols="3" rowHeight="1:1" gutterSize="10px">
+	<mat-grid-tile *ngFor="let carta of cartas" [routerLink]="'/core/game/carta/'+carta.id">
+		<img [src]="carta.thumbnail" alt="">
+		<mat-grid-tile-footer>{{carta.name || carta.code}}</mat-grid-tile-footer>
+	</mat-grid-tile>
+</mat-grid-list>

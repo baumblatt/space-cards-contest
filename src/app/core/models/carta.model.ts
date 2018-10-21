@@ -5,6 +5,7 @@ export interface Carta {
 	description: string;
 	category: string;
 	images: string[];
+	thumbnail: string;
 	distance: {
 		display: string;
 		value: string;
