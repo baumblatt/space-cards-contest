@@ -71,7 +71,6 @@ export class UsuarioEffects {
 	entrarSuccess$ = this.actions$.pipe(
 		ofType(ENTRAR_SUCCESS),
 		tap(() => {
-			console.log('entrar');
 			return this.router.navigate(['/core', 'game']).catch(console.log);
 		})
 	);
@@ -91,7 +90,6 @@ export class UsuarioEffects {
 	sairSuccess$ = this.actions$.pipe(
 		ofType(SAIR_SUCCESS),
 		tap(() => {
-			console.log('sair');
 			return this.router.navigate(['/core', 'login']).catch(console.log);
 		})
 	);
