@@ -1,0 +1,20 @@
+<form [formGroup]="salaForm" (submit)="entrar()" *ngIf="salaForm" novalidate>
+  <mat-card>
+    <mat-card-header>
+      Join a private room
+    </mat-card-header>
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <mat-form-field>
+            <input matInput  placeholder="Room code" formControlName="codigoAcesso">
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-actions>
+      <button mat-button type="button" (click)="cancelar()">Cancel</button>
+      <button mat-button type="submit">Join</button>
+    </mat-card-actions>
+  </mat-card>
+</form>

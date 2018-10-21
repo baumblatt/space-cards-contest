@@ -25,14 +25,16 @@ export class CriarSalaFail implements Action {
 }
 
 export const ENTRAR_SALA = '[Sala] Entrar em uma sala de jogo.';
+export const ENTRAR_SALA_DIALOG = '[Sala] Entrar em uma sala de jogo. (Dialog)';
 export const ENTRAR_SALA_SUCCESS = '[Sala] Entrar em uma sala de jogo (Success).';
 export const ENTRAR_SALA_FAIL = '[Sala] Entrar em uma sala de jogo (Fail).';
 
 export class EntrarSala implements Action {
 	readonly type = ENTRAR_SALA;
+}
 
-	constructor(public payload?: string) {
-	}
+export class EntrarSalaDialog implements Action {
+	readonly type = ENTRAR_SALA_DIALOG;
 }
 
 export class EntrarSalaSuccess implements Action {
@@ -71,6 +73,7 @@ export type SalaAction =
 	| CriarSalaSuccess
 	| CriarSalaFail
 	| EntrarSala
+	| EntrarSalaDialog
 	| EntrarSalaSuccess
 	| EntrarSalaFail
 	| ObservarSalaNext

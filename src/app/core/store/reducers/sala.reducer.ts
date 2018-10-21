@@ -8,7 +8,8 @@ export interface SalaState {
 export const initialState: SalaState = {
 	sala: {
 		id: '',
-		codigoAcesso: ''
+		codigoAcesso: '',
+		iniciado: false,
 	}
 };
 
@@ -23,10 +24,12 @@ export function salaReducer(state = initialState, action: SalaAction): SalaState
 				...state,
 				sala: url.startsWith('/core/game/sala') && params.id ? {
 					id: params.id,
-					codigoAcesso: params.id.substr(0, 4)
+					codigoAcesso: params.id.substr(0, 4),
+					iniciado: false,
 				} : {
 					id: '',
-					codigoAcesso: ''
+					codigoAcesso: '',
+					iniciado: false,
 				}
 			};
 		}

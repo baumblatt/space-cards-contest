@@ -1,11 +1,14 @@
 import {LayoutModule} from '@angular/cdk/layout';
 import {CommonModule} from '@angular/common';
 import {NgModule} from '@angular/core';
+import {ReactiveFormsModule} from '@angular/forms';
 import {
 	MatButtonModule,
 	MatCardModule,
+	MatDialogModule,
 	MatGridListModule,
 	MatIconModule,
+	MatInputModule,
 	MatListModule,
 	MatSidenavModule,
 	MatSnackBarModule,
@@ -17,6 +20,7 @@ import {StoreModule} from '@ngrx/store';
 import {CartaCardComponent} from './components/carta-card/carta-card.component';
 import {CartasGridComponent} from './components/cartas-grid/cartas-grid.component';
 import {JogadoresGridComponent} from './components/jogadores-grid/jogadores-grid.component';
+import {SalaDialogComponent} from './components/sala-dialog/sala-dialog.component';
 import {CartaComponent} from './containers/carta/carta.component';
 import {CartasComponent} from './containers/cartas/cartas.component';
 import {HomeComponent} from './containers/home/home.component';
@@ -39,13 +43,16 @@ import {globalReducer} from './store/reducers/global.reducers';
 		LayoutModule,
 		MatButtonModule,
 		MatCardModule,
+		MatDialogModule,
 		MatGridListModule,
 		MatIconModule,
+		MatInputModule,
 		MatListModule,
 		MatSnackBarModule,
 		MatSidenavModule,
 		MatTabsModule,
 		MatToolbarModule,
+		ReactiveFormsModule,
 		StoreModule.forFeature('core', globalReducer),
 		EffectsModule.forFeature([CartasEffects, SalaEffects, SnackBarEffect, UsuarioEffects]),
 	],
@@ -60,7 +67,9 @@ import {globalReducer} from './store/reducers/global.reducers';
 		LoginComponent,
 		SalaComponent,
 		SalasComponent,
+		SalaDialogComponent,
 	],
+	entryComponents: [SalaDialogComponent]
 })
 export class CoreModule {
 

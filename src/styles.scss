@@ -74,6 +74,9 @@ body.app-theme {
 		background-size: cover;
 	}
 
+	// ---------------------
+	// Material Snack Bar Customizations
+	// ---------------------
 	.mat-snack-bar-container {
 		&.mat-snack-bar-primary {
 			background-color: mat-color($space-cards-contest-primary, 600);
@@ -86,6 +89,59 @@ body.app-theme {
 		&.mat-snack-bar-warn {
 			background-color: mat-color($space-cards-contest-warn, 600);
 			color: mat-contrast($space-cards-contest-warn, 600);
+		}
+	}
+
+	// ---------------------
+	// Material Dialog Customizations
+	// ---------------------
+	mat-dialog-container.mat-dialog-container {
+		padding: 0;
+	}
+
+	// ---------------------
+	// Material Forms Customizations
+	// ---------------------
+	mat-form-field {
+		width: 100%;
+	}
+
+	// ---------------------
+	// Material Forms in Material Dialog Customizations
+	// ---------------------
+	mat-dialog-container {
+		mat-card-content {
+			input, ::placeholder {
+				color: white;
+				caret-color: white;
+			}
+
+			div.mat-form-field-wrapper {
+				padding-bottom: 0.25em;
+			}
+
+			div.mat-form-field-underline {
+				bottom: 0.25em;
+			}
+
+			mat-form-field {
+				label.mat-form-field-label {
+					color: white;
+				}
+
+				div.mat-form-field-underline {
+					background-color: white;
+				}
+
+				&.mat-focused {
+					label.mat-form-field-label {
+						color: #a9a6c5;
+					}
+					span.mat-form-field-ripple {
+						background-color: #a9a6c5;
+					}
+				}
+			}
 		}
 	}
 }

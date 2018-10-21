@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {Store} from '@ngrx/store';
-import {CriarSala} from '../../store/actions/sala.action';
+import {CriarSala, EntrarSala} from '../../store/actions/sala.action';
 import {CoreState} from '../../store/reducers/global.reducers';
 
 @Component({
@@ -13,7 +13,13 @@ export class SalasComponent {
 	constructor(private store: Store<CoreState>) {
 	}
 
-	create() {
+	criar() {
 		this.store.dispatch(new CriarSala());
 	}
+
+	entrar() {
+		this.store.dispatch(new EntrarSala());
+	}
+
+
 }
