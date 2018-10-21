@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import {Navigation} from '../../../store/actions/router.action';
 import {Sala} from '../../models/sala.model';
 
 export const CRIAR_SALA = '[Sala] Criar sala de jogo.';
@@ -48,17 +49,8 @@ export class EntrarSalaFail implements Action {
 	}
 }
 
-export const OBSERVAR_SALA_SUBSCRIBE = '[Sala] Observação de Sala (Subscribe).';
 export const OBSERVAR_SALA_NEXT = '[Sala] Observação de Sala (Next).';
 export const OBSERVAR_SALA_ERROR = '[Sala] Observação de Sala (Error).';
-export const OBSERVAR_SALA_UNSUBSCRIBE = '[Sala] Observação de Sala (Unsubscribe).';
-
-export class ObservarSalaSubscribe implements Action {
-	readonly type = OBSERVAR_SALA_SUBSCRIBE;
-
-	constructor(public payload: string) {
-	}
-}
 
 export class ObservarSalaNext implements Action {
 	readonly type = OBSERVAR_SALA_NEXT;
@@ -74,10 +66,6 @@ export class ObservarSalaError implements Action {
 	}
 }
 
-export class ObservarSalaUnsubscribe implements Action {
-	readonly type = OBSERVAR_SALA_UNSUBSCRIBE;
-}
-
 export type SalaAction =
 	| CriarSala
 	| CriarSalaSuccess
@@ -85,7 +73,6 @@ export type SalaAction =
 	| EntrarSala
 	| EntrarSalaSuccess
 	| EntrarSalaFail
-	| ObservarSalaSubscribe
 	| ObservarSalaNext
 	| ObservarSalaError
-	| ObservarSalaUnsubscribe;
+	| Navigation;

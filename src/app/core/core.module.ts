@@ -28,6 +28,7 @@ import {SalasComponent} from './containers/salas/salas.component';
 import {CoreRoutingModule} from './core-routing.module';
 import {CartasEffects} from './store/effects/cartas.effects';
 import {SalaEffects} from './store/effects/sala.effects';
+import {SnackBarEffect} from './store/effects/snack-bar.effect';
 import {UsuarioEffects} from './store/effects/usuario.effects';
 import {globalReducer} from './store/reducers/global.reducers';
 
@@ -46,7 +47,7 @@ import {globalReducer} from './store/reducers/global.reducers';
 		MatTabsModule,
 		MatToolbarModule,
 		StoreModule.forFeature('core', globalReducer),
-		EffectsModule.forFeature([CartasEffects, SalaEffects, UsuarioEffects]),
+		EffectsModule.forFeature([CartasEffects, SalaEffects, SnackBarEffect, UsuarioEffects]),
 	],
 	declarations: [
 		CartaCardComponent,
