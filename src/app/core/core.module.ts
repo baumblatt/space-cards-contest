@@ -15,13 +15,14 @@ import {
 import {DomSanitizer} from '@angular/platform-browser';
 import {EffectsModule} from '@ngrx/effects';
 import {StoreModule} from '@ngrx/store';
+import {CartaCardComponent} from './components/carta-card/carta-card.component';
 import {CartasGridComponent} from './components/cartas-grid/cartas-grid.component';
-import {CartaComponent} from './container/carta/carta.component';
-import {CartasComponent} from './container/cartas/cartas.component';
-import {HomeComponent} from './container/home/home.component';
-import {LayoutComponent} from './container/layout/layout.component';
-import {LoginComponent} from './container/login/login.component';
-import {SalasComponent} from './container/salas/salas.component';
+import {CartaComponent} from './containers/carta/carta.component';
+import {CartasComponent} from './containers/cartas/cartas.component';
+import {HomeComponent} from './containers/home/home.component';
+import {LayoutComponent} from './containers/layout/layout.component';
+import {LoginComponent} from './containers/login/login.component';
+import {SalasComponent} from './containers/salas/salas.component';
 
 import {CoreRoutingModule} from './core-routing.module';
 import {CartasEffects} from './store/effects/cartas.effects';
@@ -44,7 +45,7 @@ import {globalReducer} from './store/reducers/global.reducers';
 		StoreModule.forFeature('core', globalReducer),
 		EffectsModule.forFeature([CartasEffects, UsuarioEffects]),
 	],
-	declarations: [LayoutComponent, LoginComponent, HomeComponent, SalasComponent, CartaComponent, CartasComponent, CartasGridComponent]
+	declarations: [LayoutComponent, LoginComponent, HomeComponent, SalasComponent, CartaComponent, CartasComponent, CartasGridComponent, CartaCardComponent]
 })
 export class CoreModule {
 	constructor(private iconRegistry: MatIconRegistry, private sanitizer: DomSanitizer) {

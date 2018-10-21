@@ -1,8 +1,8 @@
 {
   "name": "Space Cards Contest",
   "short_name": "Space Cards",
-  "theme_color": "#949394",
-  "background_color": "#949394",
+  "theme_color": "#534c8a",
+  "background_color": "#534c8a",
   "display": "standalone",
   "scope": "/",
   "start_url": "/",

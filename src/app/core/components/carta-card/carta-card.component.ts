@@ -2,13 +2,14 @@ import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
 import {Carta} from '../../models/carta.model';
 
 @Component({
-	selector: 'app-cartas-grid',
-	templateUrl: './cartas-grid.component.html',
-	styleUrls: ['./cartas-grid.component.scss'],
+	selector: 'app-carta-card',
+	templateUrl: './carta-card.component.html',
+	styleUrls: ['./carta-card.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class CartasGridComponent {
+export class CartaCardComponent {
 
 	@Input()
-	cartas: Carta[];
+	carta: Carta;
+
 }

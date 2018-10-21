@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
-import {take, tap} from 'rxjs/operators';
+import {take} from 'rxjs/operators';
 import {Carta} from '../../models/carta.model';
 import {CartasState} from '../../store/reducers/cartas.reducer';
 import {getCarta} from '../../store/selectors/cartas.selectors';
@@ -23,7 +23,6 @@ export class CartaComponent implements OnInit {
 	ngOnInit() {
 		this.carta$ = this.store.pipe(
 			select(getCarta),
-			tap(console.log),
 		);
 	}
 

@@ -10,4 +10,20 @@ export interface Carta {
 		display: string;
 		value: string;
 	};
+	magnitude: {
+		display: string;
+		value: string;
+	};
+	majaxis: {
+		display: string;
+		value: string;
+	};
+	minaxis: {
+		display: string;
+		value: string;
+	};
+	velocity: {
+		display: string;
+		value: string;
+	};
 }

@@ -27,7 +27,7 @@ export function cartasReducer(state = initialState, action: CartasAction): Carta
 		}
 
 		case CARTAS: {
-			return cartasAdapter.addMany(action.payload, state);
+			return cartasAdapter.upsertMany(action.payload, state);
 		}
 
 
