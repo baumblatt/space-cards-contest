@@ -90,7 +90,7 @@ export class SalaEffects {
 		withLatestFrom(this.store.pipe(select(getUsuario))),
 		switchMap(([codigoAcesso, jogador]: [string, Usuario]) => {
 			return this.fns.httpsCallable('entrarSala')({codigoAcesso, jogador}).pipe(
-				map(sala => new EntrarSalaSuccess(sala)),
+				map(retorno => (retorno.code === 'unavailable') ? new EntrarSalaFail(retorno) : new EntrarSalaSuccess(retorno)),
 				catchError((err) => of(new EntrarSalaFail(err))),
 			);
 		}),

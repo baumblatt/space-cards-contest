@@ -19,6 +19,7 @@ export const entrarSala = functions.region(region).https.onCall(async (data, con
 
 	const queryRef = admin.firestore().collection('salas')
 		.where("codigoAcesso", "==", data.codigoAcesso)
+		.where('iniciado', '==', false)
 		.limit(1);
 
 	// Get collection snapshot
@@ -47,5 +48,5 @@ export const entrarSala = functions.region(region).https.onCall(async (data, con
 		}
 	}
 
-	return new HttpsError('unavailable', 'A sala não existe ou encontra-se cheia.', 'A sala não existe ou encontra-se cheia.');
+	return new HttpsError('unavailable', 'A sala não existe ou o jogo já foi iniciado.', 'A sala não existe ou o jogo já foi iniciado.');
 });
