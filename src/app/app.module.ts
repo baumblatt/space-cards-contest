@@ -9,6 +9,7 @@ import {AngularFirestoreModule} from '@angular/fire/firestore';
 import {AngularFireFunctionsModule} from '@angular/fire/functions';
 import {BrowserModule} from '@angular/platform-browser';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {ServiceWorkerModule} from '@angular/service-worker';
 import {EffectsModule} from '@ngrx/effects';
 import {RouterStateSerializer, StoreRouterConnectingModule} from '@ngrx/router-store';
 import {StoreModule} from '@ngrx/store';
@@ -39,6 +40,7 @@ registerLocaleData(localeBR, 'pt', localeBRExtra);
 		StoreRouterConnectingModule,
 		EffectsModule.forRoot([AppEffects]),
 		StoreDevtoolsModule.instrument({name: 'Space Card Contest', logOnly: environment.production}),
+		ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})
 	],
 	providers: [{provide: LOCALE_ID, useValue: 'pt'}, {provide: RouterStateSerializer, useClass: CustomSerializer}],
 	bootstrap: [AppComponent]
