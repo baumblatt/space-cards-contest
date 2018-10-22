@@ -52,9 +52,9 @@ export const entrarSala = functions.https.onCall(async (data, context) => {
 });
 
 export const iniciarJogo = functions.https.onCall(async (data, context) => {
-	// if (!context.auth && data.jogador1.uid === context.auth.uid) {
-	// 	return new HttpsError('failed-precondition', 'Usuário não autenticado.', 'O usuário deve estar autenticado.');
-	// }
+	if (!context.auth && data.jogador1.uid === context.auth.uid) {
+		return new HttpsError('failed-precondition', 'Usuário não autenticado.', 'O usuário deve estar autenticado.');
+	}
 
 	const cartasSnapshot = await admin.firestore().collection('cartas').get();
 	let cartas: any[] = cartasSnapshot.docs.map(doc => ({...doc.data()}));
@@ -101,7 +101,21 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 	return sala;
 });
 
-export const iniciarRodada = functions.https.onCall(async (data, context) => {
+export const enviarCriterio = functions.https.onCall(async (data, context) => {
+	const sala = data.sala;
+
+	const jogador1Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador1`).get();
+	let mao1: any[] = jogador1Snapshot.docs.map(doc => ({...doc.data()}));
+
+	// @ts-ignore
+	let [carta1, ...cartas1] = mao1.cartas;
+
+	// @ts-ignore
+	mao1.cartas = castas1;
+
+	const jogador2Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador2`).get();
+	let mao2: any[] = jogador2Snapshot.docs.map(doc => ({...doc.data()}));
 
 
+	return mao;
 });

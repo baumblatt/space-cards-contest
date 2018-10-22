@@ -3,10 +3,10 @@ import {select, Store} from '@ngrx/store';
 import {Observable} from 'rxjs';
 import {Mao} from '../../models/mao.model';
 import {Sala} from '../../models/sala.model';
-import {EscolherCriterio} from '../../store/actions/baralho.action';
+import {EnviarCriterio, EscolherCriterio} from '../../store/actions/baralho.action';
 import {IniciarJogo} from '../../store/actions/sala.action';
 import {SalaState} from '../../store/reducers/sala.reducer';
-import {getCriterio, getMao} from '../../store/selectors/baralho.selectors';
+import {getMao, getProximoCriterio} from '../../store/selectors/baralho.selectors';
 import {getSala} from '../../store/selectors/sala.selectors';
 
 @Component({
@@ -20,7 +20,7 @@ export class SalaComponent implements OnInit {
 
 	mao$: Observable<Mao>;
 
-	criterio$: Observable<string>;
+	proximoCriterio$: Observable<string>;
 
 	constructor(private store: Store<SalaState>) {
 	}
@@ -28,7 +28,7 @@ export class SalaComponent implements OnInit {
 	ngOnInit() {
 		this.sala$ = this.store.pipe(select(getSala));
 		this.mao$ = this.store.pipe(select(getMao));
-		this.criterio$ = this.store.pipe(select(getCriterio));
+		this.proximoCriterio$ = this.store.pipe(select(getProximoCriterio));
 	}
 
 	iniciar(sala: Sala) {
@@ -37,5 +37,9 @@ export class SalaComponent implements OnInit {
 
 	escolher(criterio: string) {
 		this.store.dispatch(new EscolherCriterio(criterio));
+	}
+
+	enviar() {
+		this.store.dispatch(new EnviarCriterio());
 	}
 }

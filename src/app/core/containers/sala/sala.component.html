@@ -27,35 +27,35 @@
 				<img mat-card-image [src]="mao.cartas[0].images[0]" alt="">
 				<mat-card-content>
 					<mat-list>
-						<mat-list-item (click)="escolher('distance')" [class.ativo]="(criterio$ | async) === 'distance'">
+						<mat-list-item (click)="escolher('distance')" [class.ativo]="(proximoCriterio$ | async) === 'distance'">
 							<h2 matLine class="mat-h2">
 								Distance
 								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].distance.display}}</div>
 							</h2>
 						</mat-list-item>
 						<mat-divider></mat-divider>
-						<mat-list-item (click)="escolher('magnitude')" [class.ativo]="(criterio$ | async) === 'magnitude'">
+						<mat-list-item (click)="escolher('magnitude')" [class.ativo]="(proximoCriterio$ | async) === 'magnitude'">
 							<h2 matLine class="mat-h2">
 								Brightness
 								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].magnitude.display}}</div>
 							</h2>
 						</mat-list-item>
 						<mat-divider></mat-divider>
-						<mat-list-item (click)="escolher('majaxis')" [class.ativo]="(criterio$ | async) === 'majaxis'">
+						<mat-list-item (click)="escolher('majaxis')" [class.ativo]="(proximoCriterio$ | async) === 'majaxis'">
 							<h2 matLine class="mat-h2">
 								Major Axis Size
 								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].majaxis.display}}</div>
 							</h2>
 						</mat-list-item>
 						<mat-divider></mat-divider>
-						<mat-list-item (click)="escolher('minaxis')" [class.ativo]="(criterio$ | async) === 'minaxis'">
+						<mat-list-item (click)="escolher('minaxis')" [class.ativo]="(proximoCriterio$ | async) === 'minaxis'">
 							<h2 matLine class="mat-h2">
 								Minor Axis Size
 								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].minaxis.display}}</div>
 							</h2>
 						</mat-list-item>
 						<mat-divider></mat-divider>
-						<mat-list-item (click)="escolher('velocity')" [class.ativo]="(criterio$ | async) === 'velocity'">
+						<mat-list-item (click)="escolher('velocity')" [class.ativo]="(proximoCriterio$ | async) === 'velocity'">
 							<h2 matLine class="mat-h2">
 								Radial Velocity
 								<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].velocity.display}}</div>
@@ -64,7 +64,7 @@
 					</mat-list>
 				</mat-card-content>
 				<mat-card-actions>
-					<button mat-raised-button color="primary" *ngIf="mao.mestre; else aguarde" [disabled]="!(criterio$ | async)">Contest!</button>
+					<button mat-raised-button color="primary" *ngIf="mao.mestre; else aguarde" (click)="enviar()" [disabled]="!(proximoCriterio$ | async)">Contest!</button>
 					<ng-template #aguarde>
 						<button mat-button>Please wait...</button>
 					</ng-template>

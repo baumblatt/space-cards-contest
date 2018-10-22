@@ -11,7 +11,7 @@ export const getMao = createSelector(
 	state => state.mao
 );
 
-export const getCriterio = createSelector(
+export const getProximoCriterio = createSelector(
 	getBaralhoState,
-	state => state.mesa && state.mesa.criterio ? state.mesa.criterio.nome : undefined
+	state => state.proximoCriterio
 );

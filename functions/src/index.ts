@@ -14,5 +14,5 @@ admin.initializeApp({credential, ...config});
 // use of timestamp in firestore
 admin.firestore().settings({timestampsInSnapshots: true});
 
-export {appCreateProfile, entrarSala, iniciarJogo} from './app';
+export {appCreateProfile, entrarSala, iniciarJogo, enviarCriterio} from './app';
 

@@ -7,14 +7,13 @@ export interface BaralhoState {
 		rodada: number;
 		mestre: boolean;
 	};
+	proximoCriterio?: string;
 	mesa?: {
 		jogador1?: Carta;
 		jogador2?: Carta;
 		jogador3?: Carta;
 		jogador4?: Carta;
-		criterio: {
-			nome: string;
-		};
+		criterio: string;
 	};
 }
 
@@ -25,17 +24,18 @@ export function baralhoReducer(state = initialState, action: BaralhoAction): Bar
 	switch (action.type) {
 
 		case OBSERVAR_MAO_NEXT: {
+			const {proximoCriterio, ...rest} = state;
+
 			return {
-				...state,
+				...rest,
 				mao: action.payload
 			};
 		}
 
 		case ESCOLHER_CRITERIO: {
-			const criterio = {nome: action.payload};
 			return {
 				...state,
-				mesa: state.mesa ? {...state.mesa, criterio} : {criterio}
+				proximoCriterio: action.payload
 			};
 		}
 
