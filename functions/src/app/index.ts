@@ -117,5 +117,5 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 	let mao2: any[] = jogador2Snapshot.docs.map(doc => ({...doc.data()}));
 
 
-	return mao;
+	return mao1;
 });
