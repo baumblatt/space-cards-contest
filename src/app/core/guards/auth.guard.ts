@@ -1,23 +1,23 @@
 import {Injectable} from '@angular/core';
+import {AngularFireAuth} from '@angular/fire/auth';
 import {ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot} from '@angular/router';
-import {select, Store} from '@ngrx/store';
+import {Store} from '@ngrx/store';
+import {User} from 'firebase';
 import {Observable} from 'rxjs';
-import {filter, tap} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {UsuarioState} from '../store/reducers/usuario-reducer';
-import {isUsuarioAutenticado} from '../store/selectors/usuario.selectors';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class AuthGuard implements CanActivate {
 
-	constructor(private store: Store<UsuarioState>, private router: Router) {
+	constructor(private fireAuth: AngularFireAuth, private store: Store<UsuarioState>, private router: Router) {
 	}
 
 	canActivate(next: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
-		return this.store.pipe(
-			select(isUsuarioAutenticado),
-			filter(isAuth => isAuth !== undefined),
+		return this.fireAuth.authState.pipe(
+			map((userInfo: User) => !!userInfo),
 			tap(isAuth => {
 				if (!isAuth) {
 					this.router.navigate(['/core', 'login']).catch();
