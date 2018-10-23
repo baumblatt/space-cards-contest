@@ -68,14 +68,14 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 		jogador1.cartas.push(cartas.pop());
 	}
 
-	await admin.firestore().doc(`salas/${data.id}/jogador1/1`).set(jogador1, {merge: true});
+	await admin.firestore().doc(`salas/${data.id}/jogador1/mao-0`).set(jogador1, {merge: true});
 
 	const jogador2 = {cartas: [], rodada: 1, mestre: false};
 	for (let i = 0; i < tamanho; i++) {
 		jogador2.cartas.push(cartas.pop());
 	}
 
-	await admin.firestore().doc(`salas/${data.id}/jogador2/1`).set(jogador2, {merge: true});
+	await admin.firestore().doc(`salas/${data.id}/jogador2/mao-0`).set(jogador2, {merge: true});
 
 	if (data.jogador3) {
 		const jogador3 = {cartas: [], rodada: 1, mestre: false};
@@ -83,7 +83,7 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 			jogador3.cartas.push(cartas.pop());
 		}
 
-		await admin.firestore().doc(`salas/${data.id}/jogador3/1`).set(jogador3, {merge: true});
+		await admin.firestore().doc(`salas/${data.id}/jogador3/mao-0`).set(jogador3, {merge: true});
 	}
 
 	if (data.jogador4) {
@@ -92,8 +92,19 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 			jogador4.cartas.push(cartas.pop());
 		}
 
-		await admin.firestore().doc(`salas/${data.id}/jogador4/1`).set(jogador4, {merge: true});
+		await admin.firestore().doc(`salas/${data.id}/jogador4/mao-0`).set(jogador4, {merge: true});
 	}
+
+	const mesa = {
+		cartas: cartas,
+		rodada: 0,
+		jogador1: {score: 0},
+		jogador2: {score: 0},
+		jogador3: {score: 0},
+		jogador4: {score: 0},
+	};
+
+	await admin.firestore().doc(`salas/${data.id}/mesa/mesa-0`).set(mesa, {merge: true});
 
 	const sala = {...data, iniciado: true};
 	await admin.firestore().doc(`salas/${data.id}`).set(sala, {merge: true});
@@ -104,15 +115,109 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 export const enviarCriterio = functions.https.onCall(async (data, context) => {
 	const sala = data.sala;
 
-	const jogador1Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador1`).get();
-	let mao1: any[] = jogador1Snapshot.docs.map(doc => ({...doc.data()}));
+	const mesaSnapshot = await admin.firestore().collection(`salas/${sala.id}/mesa`)
+		.orderBy('rodada', 'desc').limit(1).get();
+	let mesas = mesaSnapshot.docs.map(doc => ({...doc.data()}));
 
-	let [carta1, ...cartas1] = mao1[0].cartas as any[];
+	let [mesaAnterior] = mesas;
+	let mesa: any = {
+		cartas: mesaAnterior.cartas,
+		criterio: data.criterio,
+		rodada: mesaAnterior.rodada + 1,
+	};
 
-	const jogador2Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador2`).get();
-	let mao2: any[] = jogador2Snapshot.docs.map(doc => ({...doc.data()}));
+	let vencedor = 'jogador1';
 
-	let [carta2, ...cartas2] = mao2[0].cartas as any[];
+	//----------
+	// JOGADOR 1
+	//----------
 
-	return carta1[data.criterio].value < carta2[data.criterio].value ? 'jogador1' : 'jogador2';
+	const jogador1Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador1`)
+		.orderBy('rodada', 'desc').limit(1).get();
+	let maos1 = jogador1Snapshot.docs.map(doc => ({...doc.data()}));
+
+	let [mao1] = maos1;
+	let [carta1, ...cartas1] = mao1.cartas;
+
+	mesa.jogador1 = {score: mesaAnterior.jogador1.score, carta: carta1};
+	mao1.cartas = cartas1;
+
+	//----------
+	// JOGADOR 2
+	//----------
+
+	const jogador2Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador2`)
+		.orderBy('rodada', 'desc').limit(1).get();
+	let maos2 = jogador2Snapshot.docs.map(doc => ({...doc.data()}));
+
+	let [mao2] = maos2;
+	let [carta2, ...cartas2] = mao2.cartas;
+
+	mesa.jogador2 = {score: mesaAnterior.jogador2.score, carta: carta2};
+	mao2.cartas = cartas2;
+
+	if (mesa.jogador2.carta[mesa.criterio].value > mesa[vencedor].carta[mesa.criterio].value) {
+		vencedor = 'jogador2';
+	}
+
+	//----------
+	// JOGADOR 3
+	//----------
+
+	let mao3 = undefined;
+	if (sala.jogador3) {
+		const jogador3Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador3`)
+			.orderBy('rodada', 'desc').limit(1).get();
+		let maos3 = jogador3Snapshot.docs.map(doc => ({...doc.data()}));
+
+		let [mao] = maos3;
+		mao3 = mao;
+		let [carta3, ...cartas3] = mao3.cartas;
+
+		mesa.jogador3 = {score: mesaAnterior.jogador3.score, carta: carta3};
+		mao3.cartas = cartas3;
+
+		if (mesa.jogador3.carta[mesa.criterio].value > mesa[vencedor].carta[mesa.criterio].value) {
+			vencedor = 'jogador3';
+		}
+	}
+
+	//----------
+	// JOGADOR 4
+	//----------
+	let mao4 = undefined;
+	if (sala.jogador4) {
+		const jogador4Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador4`)
+			.orderBy('rodada', 'desc').limit(1).get();
+		let maos4 = jogador4Snapshot.docs.map(doc => ({...doc.data()}));
+
+		let [mao] = maos4;
+		mao4 = mao;
+		let [carta4, ...cartas4] = mao4.cartas;
+
+		mesa.jogador4 = {score: mesaAnterior.jogador4.score, carta: carta4};
+		mao4.cartas = cartas4;
+
+		if (mesa.jogador4.carta[mesa.criterio].value > mesa[vencedor].carta[mesa.criterio].value) {
+			vencedor = 'jogador4';
+		}
+	}
+
+	mesa[vencedor].score = mesa[vencedor].score + 1;
+
+	//-----------------
+	// GRAVAR RESULTADO
+	//-----------------
+	await admin.firestore().doc(`salas/${sala.id}/mesa/mesa-${mesa.rodada}`).set(mesa, {merge: true});
+
+	await admin.firestore().doc(`salas/${sala.id}/jogador1/mao-${mesa.rodada}`).set(mao1, {merge: true});
+	await admin.firestore().doc(`salas/${sala.id}/jogador2/mao-${mesa.rodada}`).set(mao2, {merge: true});
+	if (sala.jogador3) {
+		await admin.firestore().doc(`salas/${sala.id}/jogador3/mao-${mesa.rodada}`).set(mao3, {merge: true});
+	}
+	if (sala.jogador4) {
+		await admin.firestore().doc(`salas/${sala.id}/jogador4/mao-${mesa.rodada}`).set(mao4, {merge: true});
+	}
+
+	return mesa;
 });

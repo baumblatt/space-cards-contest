@@ -1,4 +1,5 @@
 import {Action} from '@ngrx/store';
+import {Mesa} from '../../models/mesa.model';
 
 export const ESCOLHER_CRITERIO = '[Baralho] Escolher critério';
 export const OBSERVAR_MAO_NEXT = '[Baralho] Observação de Mao (Next).';
@@ -47,10 +48,29 @@ export class EnviarCriterioFail implements Action {
 	}
 }
 
+export const OBSERVAR_MESA_NEXT = '[Baralho] Observação de Mesa (Next).';
+export const OBSERVAR_MESA_ERROR = '[Baralho] Observação de Mesa (Error).';
+
+export class ObservarMesaNext implements Action {
+	readonly type = OBSERVAR_MESA_NEXT;
+
+	constructor(public payload: Mesa) {
+	}
+}
+
+export class ObservarMesaError implements Action {
+	readonly type = OBSERVAR_MESA_ERROR;
+
+	constructor(public payload: any) {
+	}
+}
+
 export type BaralhoAction =
 	| EscolherCriterio
 	| EnviarCriterio
 	| EnviarCriterioSuccess
 	| EnviarCriterioFail
 	| ObservarMaoNext
-	| ObservarMaoError;
+	| ObservarMaoError
+	| ObservarMesaNext
+	| ObservarMesaError;

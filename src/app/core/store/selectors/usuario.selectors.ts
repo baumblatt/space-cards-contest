@@ -10,8 +10,3 @@ export const getUsuario = createSelector(
 	getUsuarioState,
 	state => state.usuario
 );
-
-export const isUsuarioAutenticado = createSelector(
-	getUsuario,
-	usuario => !usuario ? undefined : !!usuario.uid
-);
