@@ -11,6 +11,7 @@ import {environment} from '../../../../environments/environment';
 import {SalaDialogComponent} from '../../components/sala-dialog/sala-dialog.component';
 import {Sala} from '../../models/sala.model';
 import {Usuario} from '../../models/usuario.model';
+import {HideLoading, POR_FAVOR_AGUARDE, ShowLoading} from '../actions/loading.action';
 import {
 	CRIAR_SALA,
 	CRIAR_SALA_FAIL,
@@ -52,6 +53,7 @@ export class SalaEffects {
 	criarSala$ = this.actions$.pipe(
 		ofType(CRIAR_SALA),
 		withLatestFrom(this.store.pipe(select(getUsuario))),
+		tap(() => this.store.dispatch(new ShowLoading(POR_FAVOR_AGUARDE))),
 		switchMap(([action, usuario]: [Action, Usuario]) => {
 			const id = this.db.createId();
 			const sala = {id, codigoAcesso: id.substr(0, 4), jogador1: usuario, iniciado: false};
@@ -69,19 +71,19 @@ export class SalaEffects {
 		ofType(CRIAR_SALA_SUCCESS),
 		pluck('payload'),
 		tap((sala: Sala) => this.router.navigate(['core', 'game', 'sala', sala.id])),
-		map(() => new ShowSnackBar({
+		map(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Room created successfully',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-primary']}
-		})),
+		})])),
 	);
 
 	@Effect()
 	criarSalaFail$ = this.actions$.pipe(
 		ofType(CRIAR_SALA_FAIL),
-		map(() => new ShowSnackBar({
+		map(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Ops, unable to create the room, try again later.',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-warn']}
-		})),
+		})])),
 	);
 
 	@Effect()
@@ -92,6 +94,7 @@ export class SalaEffects {
 			disableClose: true
 		}).afterClosed()),
 		filter(codigoAcesso => !!codigoAcesso),
+		tap(() => this.store.dispatch(new ShowLoading(POR_FAVOR_AGUARDE))),
 		withLatestFrom(this.store.pipe(select(getUsuario))),
 		switchMap(([codigoAcesso, jogador]: [string, Usuario]) => {
 			return this.fns.httpsCallable('entrarSala')({codigoAcesso, jogador}).pipe(
@@ -106,25 +109,26 @@ export class SalaEffects {
 		ofType(ENTRAR_SALA_SUCCESS),
 		pluck('payload'),
 		tap((sala: Sala) => this.router.navigate(['core', 'game', 'sala', sala.id])),
-		map(() => new ShowSnackBar({
+		map(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Join the room successfully',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-primary']}
-		})),
+		})])),
 	);
 
 	@Effect()
 	entrarSalaFail$ = this.actions$.pipe(
 		ofType(ENTRAR_SALA_FAIL),
-		map(() => new ShowSnackBar({
+		map(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Ops, unable to join the room, try again later.',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-warn']}
-		})),
+		})])),
 	);
 
 	@Effect()
 	iniciarJogo$ = this.actions$.pipe(
 		ofType(INICIAR_JOGO),
 		pluck('payload'),
+		tap(() => this.store.dispatch(new ShowLoading(POR_FAVOR_AGUARDE))),
 		switchMap((sala) => this.fns.httpsCallable('iniciarJogo')(sala).pipe(
 			map((result) => new IniciarJogoSuccess(result)),
 			catchError((error) => of(new IniciarJogoFail(error))),
@@ -135,20 +139,20 @@ export class SalaEffects {
 	iniciarJogoSuccess$ = this.actions$.pipe(
 		ofType(INICIAR_JOGO_SUCCESS),
 		pluck('payload'),
-		map(() => new ShowSnackBar({
+		map(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'The game was started successfully',
 			config: {duration: 6000, panelClass: ['mat-snack-bar-primary']}
-		})),
+		})])),
 	);
 
 	@Effect()
 	iniciarJogoFail$ = this.actions$.pipe(
 		ofType(INICIAR_JOGO_FAIL),
 		pluck('payload'),
-		map(() => new ShowSnackBar({
+		map(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Ops, failure starting the game, try again later',
 			config: {duration: 6000, panelClass: ['mat-snack-bar-warn']}
-		})),
+		})])),
 	);
 
 	@Effect()
