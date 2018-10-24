@@ -105,7 +105,7 @@ export class BaralhoEffects {
 	enviarCriterioFail$ = this.actions$.pipe(
 		ofType(ENVIAR_CRITERIO_FAIL),
 		pluck('payload'),
-		map(() => from([new HideLoading(), new ShowSnackBar({
+		mergeMap(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Ops, something wrong handling your turn, please refresh and try again.',
 			config: {duration: 2000, panelClass: ['mat-snack-bar-warn']}
 			})]),

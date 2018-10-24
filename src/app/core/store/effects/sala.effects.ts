@@ -6,7 +6,7 @@ import {Router} from '@angular/router';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 import {EMPTY, from, of} from 'rxjs';
-import {catchError, distinctUntilKeyChanged, filter, map, pluck, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, distinctUntilKeyChanged, filter, map, mergeMap, pluck, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {SalaDialogComponent} from '../../components/sala-dialog/sala-dialog.component';
 import {Sala} from '../../models/sala.model';
@@ -71,7 +71,7 @@ export class SalaEffects {
 		ofType(CRIAR_SALA_SUCCESS),
 		pluck('payload'),
 		tap((sala: Sala) => this.router.navigate(['core', 'game', 'sala', sala.id])),
-		map(() => from([new HideLoading(), new ShowSnackBar({
+		mergeMap(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Room created successfully',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-primary']}
 		})])),
@@ -80,7 +80,7 @@ export class SalaEffects {
 	@Effect()
 	criarSalaFail$ = this.actions$.pipe(
 		ofType(CRIAR_SALA_FAIL),
-		map(() => from([new HideLoading(), new ShowSnackBar({
+		mergeMap(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Ops, unable to create the room, try again later.',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-warn']}
 		})])),
@@ -109,7 +109,7 @@ export class SalaEffects {
 		ofType(ENTRAR_SALA_SUCCESS),
 		pluck('payload'),
 		tap((sala: Sala) => this.router.navigate(['core', 'game', 'sala', sala.id])),
-		map(() => from([new HideLoading(), new ShowSnackBar({
+		mergeMap(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Join the room successfully',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-primary']}
 		})])),
@@ -118,7 +118,7 @@ export class SalaEffects {
 	@Effect()
 	entrarSalaFail$ = this.actions$.pipe(
 		ofType(ENTRAR_SALA_FAIL),
-		map(() => from([new HideLoading(), new ShowSnackBar({
+		mergeMap(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Ops, unable to join the room, try again later.',
 			config: {duration: 3000, panelClass: ['mat-snack-bar-warn']}
 		})])),
@@ -139,7 +139,7 @@ export class SalaEffects {
 	iniciarJogoSuccess$ = this.actions$.pipe(
 		ofType(INICIAR_JOGO_SUCCESS),
 		pluck('payload'),
-		map(() => from([new HideLoading(), new ShowSnackBar({
+		mergeMap(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'The game was started successfully',
 			config: {duration: 6000, panelClass: ['mat-snack-bar-primary']}
 		})])),
@@ -149,7 +149,7 @@ export class SalaEffects {
 	iniciarJogoFail$ = this.actions$.pipe(
 		ofType(INICIAR_JOGO_FAIL),
 		pluck('payload'),
-		map(() => from([new HideLoading(), new ShowSnackBar({
+		mergeMap(() => from([new HideLoading(), new ShowSnackBar({
 			mensagem: 'Ops, failure starting the game, try again later',
 			config: {duration: 6000, panelClass: ['mat-snack-bar-warn']}
 		})])),

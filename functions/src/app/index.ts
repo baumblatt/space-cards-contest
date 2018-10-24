@@ -61,12 +61,10 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 
 	cartas = _.shuffle(cartas);
 
-	const tamanho = 3;
+	const tamanho = 5;
 
-	let jogador1 = {cartas: [], rodada: 1, mestre: true};
-	for (let i = 0; i < tamanho; i++) {
-		jogador1.cartas.push(cartas.pop());
-	}
+	const jogador1 = {cartas: [], rodada: 1, mestre: true};
+	for (let i = 0; i < tamanho; i++) jogador1.cartas.push(cartas.pop());
 
 	await admin.firestore().doc(`salas/${data.id}/jogador1/mao-0`).set(jogador1, {merge: true});
 
