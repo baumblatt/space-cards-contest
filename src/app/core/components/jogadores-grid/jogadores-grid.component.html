@@ -1,24 +1,24 @@
 <mat-grid-list [cols]="4" rowHeight="1:1.1" gutterSize="10px">
   <mat-grid-tile *ngIf="jogador1">
-    <div class="jogador">
+    <div class="jogador" [matBadge]="mesa ? mesa.jogador1.score : ''" matBadgeColor="accent">
       <img class="avatar" [src]="jogador1.photoURL" [alt]="jogador1.displayName">
       <h6 class="mat-h6">{{jogador1.displayName}}</h6>
     </div>
   </mat-grid-tile>
   <mat-grid-tile *ngIf="jogador2">
-    <div class="jogador">
+    <div class="jogador" [matBadge]="mesa ? mesa.jogador2.score : ''" matBadgeColor="accent">
       <img class="avatar" [src]="jogador2.photoURL" [alt]="jogador2.displayName">
       <h6 class="mat-h6">{{jogador2.displayName}}</h6>
     </div>
   </mat-grid-tile>
   <mat-grid-tile *ngIf="jogador3">
-    <div class="jogador">
+    <div class="jogador" [matBadge]="mesa && mesa.jogador3 ? mesa.jogador3.score : ''" matBadgeColor="accent">
       <img class="avatar" [src]="jogador3.photoURL" [alt]="jogador3.displayName">
       <h6 class="mat-h6">{{jogador3.displayName}}</h6>
     </div>
   </mat-grid-tile>
   <mat-grid-tile *ngIf="jogador4">
-    <div class="jogador">
+    <div class="jogador" [matBadge]="mesa && mesa.jogador4 ? mesa.jogador4.score : ''" matBadgeColor="accent">
       <img class="avatar" [src]="jogador4.photoURL" [alt]="jogador4.displayName">
       <h6 class="mat-h6">{{jogador4.displayName}}</h6>
     </div>

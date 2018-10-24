@@ -1,10 +1,12 @@
 import {Injectable} from '@angular/core';
 import {AngularFirestore} from '@angular/fire/firestore';
 import {AngularFireFunctions} from '@angular/fire/functions';
+import {MatDialog} from '@angular/material';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 import {EMPTY, from, of} from 'rxjs';
-import {catchError, map, mergeMap, pluck, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, filter, map, mergeMap, pluck, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {RodadaDialogComponent} from '../../components/rodada-dialog/rodada-dialog.component';
 import {Mao} from '../../models/mao.model';
 import {Mesa} from '../../models/mesa.model';
 import {Sala} from '../../models/sala.model';
@@ -14,6 +16,7 @@ import {
 	ENVIAR_CRITERIO_SUCCESS,
 	EnviarCriterioFail,
 	EnviarCriterioSuccess,
+	OBSERVAR_MESA_NEXT,
 	ObservarMaoError,
 	ObservarMaoNext,
 	ObservarMesaError,
@@ -28,7 +31,8 @@ import {getSala, getSlot} from '../selectors/sala.selectors';
 @Injectable()
 export class BaralhoEffects {
 
-	constructor(private actions$: Actions, private db: AngularFirestore, private fns: AngularFireFunctions, private store: Store<CoreState>) {
+	constructor(private actions$: Actions, private db: AngularFirestore, private fns: AngularFireFunctions, public dialog: MatDialog,
+				private store: Store<CoreState>) {
 	}
 
 	@Effect()
@@ -61,6 +65,20 @@ export class BaralhoEffects {
 				catchError((err) => of(new ObservarMesaError(err))),
 			);
 		})
+	);
+
+	@Effect({dispatch: false})
+	observarMesaNext$ = this.actions$.pipe(
+		ofType(OBSERVAR_MESA_NEXT),
+		pluck('payload'),
+		filter((mesa: Mesa) => mesa.rodada > 0),
+		switchMap(mesa => this.dialog.open(RodadaDialogComponent, {
+			data: mesa,
+			closeOnNavigation: true,
+			disableClose: true,
+			width: '100vw',
+			maxWidth: '100vw',
+		}).afterClosed())
 	);
 
 	@Effect()

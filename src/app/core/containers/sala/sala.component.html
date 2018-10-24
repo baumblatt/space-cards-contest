@@ -2,7 +2,7 @@
 	<ng-container *ngIf="sala$ | async as sala; else aguarde">
 		<ng-container *ngIf="sala.jogador1; else aguarde">
 			<div class="jogadores">
-				<app-jogadores-grid [jogador1]="sala.jogador1" [jogador2]="sala.jogador2" [jogador3]="sala.jogador3"
+				<app-jogadores-grid [mesa]="mesa$ | async" [jogador1]="sala.jogador1" [jogador2]="sala.jogador2" [jogador3]="sala.jogador3"
 									[jogador4]="sala.jogador4"></app-jogadores-grid>
 			</div>
 			<mat-card *ngIf="!sala.iniciado; else mao" class="codigo-acesso mat-elevation-z6">
@@ -14,61 +14,68 @@
 				</mat-card-content>
 			</mat-card>
 			<ng-template #mao>
-				<mat-card *ngIf="mao$ | async as mao" class="mao mat-elevation-z6">
-					<mat-card-header>
-						<img mat-card-avatar src="assets/images/icones/galaxias.svg" *ngIf="mao.cartas[0].category === 'Galaxy'">
-						<img mat-card-avatar src="assets/images/icones/exoplanetas.svg" *ngIf="mao.cartas[0].category === 'Exoplanetas'">
-						<img mat-card-avatar src="assets/images/icones/nebulosas.svg" *ngIf="mao.cartas[0].category === 'Nebulosas'">
-						<mat-card-title>
-							<h4 class="mat-h4">{{mao.cartas[0].name ? mao.cartas[0].name + ' - ' + mao.cartas[0].code : mao.cartas[0].code}}</h4>
-						</mat-card-title>
-					</mat-card-header>
-					<img mat-card-image [src]="mao.cartas[0].images[0]" alt="">
-					<mat-card-content>
-						<mat-list>
-							<mat-list-item (click)="escolher('distance')" [class.ativo]="(proximoCriterio$ | async) === 'distance'">
-								<h2 matLine class="mat-h2">
-									Distance
-									<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].distance.display}}</div>
-								</h2>
-							</mat-list-item>
-							<mat-divider></mat-divider>
-							<mat-list-item (click)="escolher('magnitude')" [class.ativo]="(proximoCriterio$ | async) === 'magnitude'">
-								<h2 matLine class="mat-h2">
-									Brightness
-									<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].magnitude.display}}</div>
-								</h2>
-							</mat-list-item>
-							<mat-divider></mat-divider>
-							<mat-list-item (click)="escolher('majaxis')" [class.ativo]="(proximoCriterio$ | async) === 'majaxis'">
-								<h2 matLine class="mat-h2">
-									Major Axis Size
-									<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].majaxis.display}}</div>
-								</h2>
-							</mat-list-item>
-							<mat-divider></mat-divider>
-							<mat-list-item (click)="escolher('minaxis')" [class.ativo]="(proximoCriterio$ | async) === 'minaxis'">
-								<h2 matLine class="mat-h2">
-									Minor Axis Size
-									<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].minaxis.display}}</div>
-								</h2>
-							</mat-list-item>
-							<mat-divider></mat-divider>
-							<mat-list-item (click)="escolher('velocity')" [class.ativo]="(proximoCriterio$ | async) === 'velocity'">
-								<h2 matLine class="mat-h2">
-									Radial Velocity
-									<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].velocity.display}}</div>
-								</h2>
-							</mat-list-item>
-						</mat-list>
-					</mat-card-content>
-					<mat-card-actions>
-						<button mat-raised-button color="primary" *ngIf="mao.mestre; else aguarde" (click)="enviar()" [disabled]="!(proximoCriterio$ | async)">Contest!</button>
-						<ng-template #aguarde>
-							<button mat-button>Please wait...</button>
-						</ng-template>
-					</mat-card-actions>
-				</mat-card>
+				<ng-container *ngIf="mao$ | async as mao" >
+					<ng-container *ngIf="mao.cartas.length; else acabou">
+						<mat-card class="mao mat-elevation-z6">
+						<mat-card-header>
+							<img mat-card-avatar src="assets/images/icones/galaxias.svg" *ngIf="mao.cartas[0].category === 'Galaxy'">
+							<img mat-card-avatar src="assets/images/icones/exoplanetas.svg" *ngIf="mao.cartas[0].category === 'Exoplanetas'">
+							<img mat-card-avatar src="assets/images/icones/nebulosas.svg" *ngIf="mao.cartas[0].category === 'Nebulosas'">
+							<mat-card-title>
+								<h4 class="mat-h4">{{mao.cartas[0].name ? mao.cartas[0].name + ' - ' + mao.cartas[0].code : mao.cartas[0].code}}</h4>
+							</mat-card-title>
+						</mat-card-header>
+						<img mat-card-image [src]="mao.cartas[0].images[0]" alt="">
+						<mat-card-content>
+							<mat-list>
+								<mat-list-item (click)="escolher('distance')" [class.ativo]="(proximoCriterio$ | async) === 'distance'">
+									<h2 matLine class="mat-h2">
+										Distance
+										<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].distance.display}}</div>
+									</h2>
+								</mat-list-item>
+								<mat-divider></mat-divider>
+								<mat-list-item (click)="escolher('magnitude')" [class.ativo]="(proximoCriterio$ | async) === 'magnitude'">
+									<h2 matLine class="mat-h2">
+										Brightness
+										<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].magnitude.display}}</div>
+									</h2>
+								</mat-list-item>
+								<mat-divider></mat-divider>
+								<mat-list-item (click)="escolher('majaxis')" [class.ativo]="(proximoCriterio$ | async) === 'majaxis'">
+									<h2 matLine class="mat-h2">
+										Major Axis Size
+										<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].majaxis.display}}</div>
+									</h2>
+								</mat-list-item>
+								<mat-divider></mat-divider>
+								<mat-list-item (click)="escolher('minaxis')" [class.ativo]="(proximoCriterio$ | async) === 'minaxis'">
+									<h2 matLine class="mat-h2">
+										Minor Axis Size
+										<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].minaxis.display}}</div>
+									</h2>
+								</mat-list-item>
+								<mat-divider></mat-divider>
+								<mat-list-item (click)="escolher('velocity')" [class.ativo]="(proximoCriterio$ | async) === 'velocity'">
+									<h2 matLine class="mat-h2">
+										Radial Velocity
+										<div style="float: right; text-wrap: avoid;">{{mao.cartas[0].velocity.display}}</div>
+									</h2>
+								</mat-list-item>
+							</mat-list>
+						</mat-card-content>
+						<mat-card-actions>
+							<button mat-raised-button color="primary" *ngIf="mao.mestre; else aguarde" (click)="enviar()" [disabled]="!(proximoCriterio$ | async)">Contest!</button>
+							<ng-template #aguarde>
+								<button mat-button>Please wait...</button>
+							</ng-template>
+						</mat-card-actions>
+					</mat-card>
+					</ng-container>
+					<ng-template #acabou>
+						<div *ngFor="let vencedor of vencedores$ | async">{{vencedor}}</div>
+					</ng-template>
+				</ng-container>
 			</ng-template>
 		</ng-container>
 	</ng-container>

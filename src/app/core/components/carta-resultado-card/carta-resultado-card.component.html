@@ -1,0 +1,46 @@
+<mat-card class="mat-elevation-z6" *ngIf="carta">
+	<mat-card-header>
+		<mat-card-title>
+			<h4 class="mat-h4">{{carta.name ? carta.name + ' - ' + carta.code : carta.code}}</h4>
+			<span class="space"></span>
+			<img *ngIf="slot" class="trofeu" src="assets/images/icones/trophy.svg">
+		</mat-card-title>
+	</mat-card-header>
+	<div class="img">
+		<img mat-card-image [src]="carta.images[0]" alt="">
+	</div>
+	<mat-card-content>
+		<mat-list>
+			<mat-list-item *ngIf="criterio === 'distance'">
+				<h4 matLine class="mat-h4">
+					Distance
+					<div style="float: right; text-wrap: avoid;">{{carta.distance.display}}</div>
+				</h4>
+			</mat-list-item>
+			<mat-list-item *ngIf="criterio === 'magnitude'">
+				<h4 matLine class="mat-h4">
+					Brightness
+					<div style="float: right; text-wrap: avoid;">{{carta.magnitude.display}}</div>
+				</h4>
+			</mat-list-item>
+			<mat-list-item *ngIf="criterio === 'majaxis'">
+				<h4 matLine class="mat-h4">
+					Major Axis Size
+					<div style="float: right; text-wrap: avoid;">{{carta.majaxis.display}}</div>
+				</h4>
+			</mat-list-item>
+			<mat-list-item *ngIf="criterio === 'minaxis'">
+				<h4 matLine class="mat-h4">
+					Minor Axis Size
+					<div style="float: right; text-wrap: avoid;">{{carta.minaxis.display}}</div>
+				</h4>
+			</mat-list-item>
+			<mat-list-item *ngIf="criterio === 'velocity'">
+				<h4 matLine class="mat-h4">
+					Radial Velocity
+					<div style="float: right; text-wrap: avoid;">{{carta.velocity.display}}</div>
+				</h4>
+			</mat-list-item>
+		</mat-list>
+	</mat-card-content>
+</mat-card>

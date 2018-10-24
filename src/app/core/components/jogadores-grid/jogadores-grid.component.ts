@@ -1,4 +1,5 @@
 import {ChangeDetectionStrategy, Component, Input} from '@angular/core';
+import {Mesa} from '../../models/mesa.model';
 import {Usuario} from '../../models/usuario.model';
 
 @Component({
@@ -8,6 +9,9 @@ import {Usuario} from '../../models/usuario.model';
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class JogadoresGridComponent {
+
+	@Input()
+	mesa: Mesa;
 
 	@Input()
 	jogador1: Usuario;

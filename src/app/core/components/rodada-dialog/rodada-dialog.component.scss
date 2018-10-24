@@ -1,0 +1,39 @@
+div.container-component {
+
+	background-image: url("../../../../assets/images/background/1920x1080.jpg");
+	@media (max-width: 599px) {
+		background-image: url("../../../../assets/images/background/480x600.png");
+		background-size: cover;
+	}
+
+	padding: 8px;
+	height: 100vh;
+
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column;
+
+	div.row {
+
+		&:not(:first-child) {
+			margin-top: 16px;
+		}
+
+		div.col {
+
+			mat-card {
+				background-color: transparent;
+			}
+
+			&.actions {
+				width: 80vw;
+
+				button {
+					width: 100%;
+				}
+			}
+		}
+
+	}
+}

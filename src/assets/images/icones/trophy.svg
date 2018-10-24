@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 25">
+    <defs>
+        <style>
+            .cls-1{fill:#ff7058}.cls-2{fill:#ffd15c}.cls-3{fill:#f1543f}.cls-4{fill:#f8b64c}.cls-5{fill:#fff}.cls-6{fill:#ffc952}
+        </style>
+    </defs>
+    <g id="trophy">
+        <path id="Path_304" d="M209.383 351.18H204.8l.781-1.667.677-1.562h1.667l.677 1.563z" class="cls-1" data-name="Path 304" transform="translate(-194.592 -330.607)"/>
+        <path id="Path_305" d="M136.845 412.735h-10.416a1.045 1.045 0 0 0-1.042 1.042v3.385h12.448v-3.385a.971.971 0 0 0-.99-1.042z" class="cls-2" data-name="Path 305" transform="translate(-119.137 -392.162)"/>
+        <path id="Path_306" d="M223.494 348.521a13.343 13.343 0 0 1-1.25.573l-.26.052-.26-.1a13.321 13.321 0 0 1-1.25-.573l.677-1.562h1.615z" class="cls-3" data-name="Path 306" transform="translate(-209.483 -329.614)"/>
+        <g id="Group_71" data-name="Group 71">
+            <path id="Path_307" d="M0 57.469V59.6a12.554 12.554 0 0 0 7.76 11.567 12.026 12.026 0 0 0 4.74.937 12.026 12.026 0 0 0 4.74-.937A12.554 12.554 0 0 0 25 59.6v-2.131zM22.917 59.6a10.3 10.3 0 0 1-2.4 6.615 10.482 10.482 0 0 1-8.021 3.8 10.316 10.316 0 0 1-8.021-3.8 10.487 10.487 0 0 1-2.4-6.615v-.052h20.79v.052z" class="cls-4" data-name="Path 307" transform="translate(0 -54.604)"/>
+            <path id="Path_308" d="M92.107 0h-16.25a.633.633 0 0 0-.625.625.646.646 0 0 0 .625.677h16.25a.633.633 0 0 0 .625-.625.646.646 0 0 0-.625-.677z" class="cls-4" data-name="Path 308" transform="translate(-71.482)"/>
+        </g>
+        <path id="Path_309" d="M104.022 26.122v5.625A12.693 12.693 0 0 1 95.9 43.57a12.762 12.762 0 0 1-8.125-11.875v-5.573z" class="cls-2" data-name="Path 309" transform="translate(-83.397 -24.82)"/>
+        <path id="Path_310" d="M163.407 73.143l1.094 3.333h3.49l-2.813 2.083 1.042 3.333-2.812-2.083-2.813 2.083 1.042-3.333-2.813-2.083h3.49z" class="cls-5" data-name="Path 310" transform="translate(-150.907 -69.497)"/>
+        <path id="Rectangle_93" d="M0 0h16.198v.781H0z" class="cls-6" data-name="Rectangle 93" transform="translate(4.375 1.302)"/>
+    </g>
+</svg>

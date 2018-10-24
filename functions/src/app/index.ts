@@ -124,9 +124,8 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 		cartas: mesaAnterior.cartas,
 		criterio: data.criterio,
 		rodada: mesaAnterior.rodada + 1,
+		vencedores: [],
 	};
-
-	let vencedor = 'jogador1';
 
 	//----------
 	// JOGADOR 1
@@ -142,6 +141,8 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 	mesa.jogador1 = {score: mesaAnterior.jogador1.score, carta: carta1};
 	mao1.cartas = cartas1;
 
+	mesa.vencedores.push('jogador1');
+
 	//----------
 	// JOGADOR 2
 	//----------
@@ -156,8 +157,10 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 	mesa.jogador2 = {score: mesaAnterior.jogador2.score, carta: carta2};
 	mao2.cartas = cartas2;
 
-	if (mesa.jogador2.carta[mesa.criterio].value > mesa[vencedor].carta[mesa.criterio].value) {
-		vencedor = 'jogador2';
+	if (mesa.jogador2.carta[mesa.criterio].value > mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
+		mesa.vencedores = ['jogador2'];
+	} else if (mesa.jogador2.carta[mesa.criterio].value === mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
+		mesa.vencedores.push('jogador2');
 	}
 
 	//----------
@@ -177,14 +180,17 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 		mesa.jogador3 = {score: mesaAnterior.jogador3.score, carta: carta3};
 		mao3.cartas = cartas3;
 
-		if (mesa.jogador3.carta[mesa.criterio].value > mesa[vencedor].carta[mesa.criterio].value) {
-			vencedor = 'jogador3';
+		if (mesa.jogador3.carta[mesa.criterio].value > mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
+			mesa.vencedores = ['jogador3'];
+		} else if (mesa.jogador3.carta[mesa.criterio].value === mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
+			mesa.vencedores.push('jogador3');
 		}
 	}
 
 	//----------
 	// JOGADOR 4
 	//----------
+
 	let mao4 = undefined;
 	if (sala.jogador4) {
 		const jogador4Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador4`)
@@ -198,16 +204,19 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 		mesa.jogador4 = {score: mesaAnterior.jogador4.score, carta: carta4};
 		mao4.cartas = cartas4;
 
-		if (mesa.jogador4.carta[mesa.criterio].value > mesa[vencedor].carta[mesa.criterio].value) {
-			vencedor = 'jogador4';
+		if (mesa.jogador4.carta[mesa.criterio].value > mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
+			mesa.vencedores = ['jogador4'];
+		} else if (mesa.jogador4.carta[mesa.criterio].value === mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
+			mesa.vencedores.push('jogador4');
 		}
 	}
 
-	mesa[vencedor].score = mesa[vencedor].score + 1;
+	mesa.vencedores.forEach(vencedor => mesa[vencedor].score = mesa[vencedor].score + 1);
 
 	//-----------------
 	// GRAVAR RESULTADO
 	//-----------------
+
 	await admin.firestore().doc(`salas/${sala.id}/mesa/mesa-${mesa.rodada}`).set(mesa, {merge: true});
 
 	await admin.firestore().doc(`salas/${sala.id}/jogador1/mao-${mesa.rodada}`).set(mao1, {merge: true});

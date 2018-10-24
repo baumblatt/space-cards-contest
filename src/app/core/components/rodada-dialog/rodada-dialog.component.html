@@ -1,0 +1,27 @@
+<div class="container-component">
+	<div class="row">
+		<div class="col">
+			<app-carta-resultado-card [carta]="data.jogador1.carta" [criterio]="data.criterio" [slot]="data.vencedores.includes('jogador1')"></app-carta-resultado-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col">
+			<app-carta-resultado-card [carta]="data.jogador2.carta" [criterio]="data.criterio" [slot]="data.vencedores.includes('jogador2')"></app-carta-resultado-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col" *ngIf="data.jogador3">
+			<app-carta-resultado-card [carta]="data.jogador3.carta" [criterio]="data.criterio" [slot]="data.vencedores.includes('jogador3')"></app-carta-resultado-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col" *ngIf="data.jogador4">
+			<app-carta-resultado-card [carta]="data.jogador4.carta" [criterio]="data.criterio" [slot]="data.vencedores.includes('jogador4')"></app-carta-resultado-card>
+		</div>
+	</div>
+	<div class="row">
+		<div class="col actions">
+			<button mat-raised-button color="primary" (click)="fechar()">Next play</button>
+		</div>
+	</div>
+</div>

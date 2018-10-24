@@ -1,5 +1,6 @@
 import {Carta} from '../../models/carta.model';
-import {BaralhoAction, ESCOLHER_CRITERIO, OBSERVAR_MAO_NEXT} from '../actions/baralho.action';
+import {Mesa} from '../../models/mesa.model';
+import {BaralhoAction, ESCOLHER_CRITERIO, OBSERVAR_MAO_NEXT, OBSERVAR_MESA_NEXT} from '../actions/baralho.action';
 
 export interface BaralhoState {
 	mao?: {
@@ -8,13 +9,7 @@ export interface BaralhoState {
 		mestre: boolean;
 	};
 	proximoCriterio?: string;
-	mesa?: {
-		jogador1?: Carta;
-		jogador2?: Carta;
-		jogador3?: Carta;
-		jogador4?: Carta;
-		criterio: string;
-	};
+	mesa?: Mesa;
 }
 
 export const initialState: BaralhoState = {};
@@ -36,6 +31,13 @@ export function baralhoReducer(state = initialState, action: BaralhoAction): Bar
 			return {
 				...state,
 				proximoCriterio: action.payload
+			};
+		}
+
+		case OBSERVAR_MESA_NEXT: {
+			return {
+				...state,
+				mesa: action.payload
 			};
 		}
 

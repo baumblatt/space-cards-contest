@@ -8,5 +8,5 @@ export interface Mesa {
 	jogador2: { score: number, carta: Carta };
 	jogador3?: { score: number, carta: Carta };
 	jogador4?: { score: number, carta: Carta };
-
+	vencedores: string[];
 }

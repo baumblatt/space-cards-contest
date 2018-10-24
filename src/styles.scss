@@ -107,6 +107,17 @@ body.app-theme {
 	}
 
 	// ---------------------
+	// Material Forms Customizations
+	// ---------------------
+	mat-card {
+		mat-card-header {
+			div.mat-card-header-text {
+				width: 100%;
+			}
+		}
+	}
+
+	// ---------------------
 	// Material Forms in Material Dialog Customizations
 	// ---------------------
 	mat-dialog-container {
