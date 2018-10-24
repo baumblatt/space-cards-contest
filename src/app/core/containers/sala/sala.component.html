@@ -2,7 +2,7 @@
 	<ng-container *ngIf="sala$ | async as sala; else aguarde">
 		<ng-container *ngIf="sala.jogador1; else aguarde">
 			<div class="jogadores">
-				<app-jogadores-grid [mesa]="mesa$ | async" [jogador1]="sala.jogador1" [jogador2]="sala.jogador2" [jogador3]="sala.jogador3"
+				<app-jogadores-grid [cols]="4" [mesa]="mesa$ | async" [jogador1]="sala.jogador1" [jogador2]="sala.jogador2" [jogador3]="sala.jogador3"
 									[jogador4]="sala.jogador4"></app-jogadores-grid>
 			</div>
 			<mat-card *ngIf="!sala.iniciado; else mao" class="codigo-acesso mat-elevation-z6">
@@ -73,7 +73,19 @@
 					</mat-card>
 					</ng-container>
 					<ng-template #acabou>
-						<div *ngFor="let vencedor of vencedores$ | async">{{vencedor}}</div>
+						<div class="vencedores" *ngIf="vencedores$ | async as vencedores">
+							<img class="trofeu" src="assets/images/icones/trophy.svg">
+							<div class="mensagem">
+								Congratulations<br>to the winner(s)!
+							</div>
+							<app-jogadores-grid [cols]="vencedores.length"
+												[jogador1]="vencedores.length ? vencedores[0] : null"
+												[jogador2]="vencedores.length >= 2 ? vencedores[1] : null"
+												[jogador3]="vencedores.length >= 3 ? vencedores[2] : null"
+												[jogador4]="vencedores.length == 4 ? vencedores[3] : null">
+							</app-jogadores-grid>
+							<button mat-raised-button color="primary" routerLink="/core/game/salas">Play again</button>
+						</div>
 					</ng-template>
 				</ng-container>
 			</ng-template>

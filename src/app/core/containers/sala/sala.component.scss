@@ -71,4 +71,35 @@ div.container-component {
 		width: 100vw;
 		text-align: center;
 	}
+
+	div.vencedores {
+		border: solid 1px rgba(255,255,255,0.27);
+		margin: 25px;
+		border-radius: 10px;
+		padding-top: 20px;
+		color: #534c8a;
+		background-color: whitesmoke;
+		text-align: center;
+		max-height: 350px;
+		position: relative;
+
+		img.trofeu {
+			width: 30%;
+		}
+
+		div.mensagem {
+			text-align: center;
+			font-size: 2em;
+			font-weight: 900;
+			line-height: 1.3em;
+			margin-bottom: 16px;
+		}
+
+		button {
+			position: absolute;
+			bottom: 20px;
+			width: calc(100% - 40px);
+			left: 20px;
+		}
+	}
 }

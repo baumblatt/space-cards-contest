@@ -52,6 +52,6 @@ export const getVencedores = createSelector(
 			vencedores.push('jogador4');
 		}
 
-		return vencedores;
+		return vencedores.map(vencedor => sala[vencedor]);
 	}
 );

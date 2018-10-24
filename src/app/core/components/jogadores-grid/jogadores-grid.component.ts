@@ -11,6 +11,9 @@ import {Usuario} from '../../models/usuario.model';
 export class JogadoresGridComponent {
 
 	@Input()
+	cols: number;
+
+	@Input()
 	mesa: Mesa;
 
 	@Input()
