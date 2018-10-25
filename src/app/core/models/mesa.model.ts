@@ -4,9 +4,9 @@ export interface Mesa {
 	cartas: Carta[];
 	criterio: string;
 	rodada: number;
-	jogador1: { score: number, carta: Carta };
-	jogador2: { score: number, carta: Carta };
-	jogador3?: { score: number, carta: Carta };
-	jogador4?: { score: number, carta: Carta };
+	jogador1: { nome: string, score: number, carta: Carta };
+	jogador2: { nome: string, score: number, carta: Carta };
+	jogador3?: { nome: string, score: number, carta: Carta };
+	jogador4?: { nome: string, score: number, carta: Carta };
 	vencedores: string[];
 }
