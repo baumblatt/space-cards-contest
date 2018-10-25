@@ -61,6 +61,15 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 
 	cartas = _.shuffle(cartas);
 
+	const mesa = {
+		cartas: cartas,
+		rodada: 0,
+		jogador1: {nome: data.jogador1.displayName, score: 0},
+		jogador2: {nome: data.jogador2.displayName, score: 0},
+		jogador3: {nome: data.jogador3 ? data.jogador3.displayName : '', score: 0},
+		jogador4: {nome: data.jogador4 ? data.jogador4.displayName : '', score: 0},
+	};
+
 	const tamanho = 5;
 
 	const jogador1 = {cartas: [], rodada: 1, mestre: true};
@@ -93,15 +102,6 @@ export const iniciarJogo = functions.https.onCall(async (data, context) => {
 		await admin.firestore().doc(`salas/${data.id}/jogador4/mao-0`).set(jogador4, {merge: true});
 	}
 
-	const mesa = {
-		cartas: cartas,
-		rodada: 0,
-		jogador1: {score: 0},
-		jogador2: {score: 0},
-		jogador3: {score: 0},
-		jogador4: {score: 0},
-	};
-
 	await admin.firestore().doc(`salas/${data.id}/mesa/mesa-0`).set(mesa, {merge: true});
 
 	const sala = {...data, iniciado: true};
@@ -115,10 +115,10 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 
 	const mesaSnapshot = await admin.firestore().collection(`salas/${sala.id}/mesa`)
 		.orderBy('rodada', 'desc').limit(1).get();
-	let mesas = mesaSnapshot.docs.map(doc => ({...doc.data()}));
+	const mesas = mesaSnapshot.docs.map(doc => ({...doc.data()}));
 
-	let [mesaAnterior] = mesas;
-	let mesa: any = {
+	const [mesaAnterior] = mesas;
+	const mesa: any = {
 		cartas: mesaAnterior.cartas,
 		criterio: data.criterio,
 		rodada: mesaAnterior.rodada + 1,
@@ -131,13 +131,14 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 
 	const jogador1Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador1`)
 		.orderBy('rodada', 'desc').limit(1).get();
-	let maos1 = jogador1Snapshot.docs.map(doc => ({...doc.data()}));
+	const maos1 = jogador1Snapshot.docs.map(doc => ({...doc.data()}));
 
-	let [mao1] = maos1;
-	let [carta1, ...cartas1] = mao1.cartas;
+	const [mao1] = maos1;
+	const [carta1, ...cartas1] = mao1.cartas;
 
 	mesa.jogador1 = {score: mesaAnterior.jogador1.score, carta: carta1};
 	mao1.cartas = cartas1;
+	mao1.mestre = true;
 
 	mesa.vencedores.push('jogador1');
 
@@ -147,16 +148,18 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 
 	const jogador2Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador2`)
 		.orderBy('rodada', 'desc').limit(1).get();
-	let maos2 = jogador2Snapshot.docs.map(doc => ({...doc.data()}));
+	const maos2 = jogador2Snapshot.docs.map(doc => ({...doc.data()}));
 
-	let [mao2] = maos2;
-	let [carta2, ...cartas2] = mao2.cartas;
+	const [mao2] = maos2;
+	const [carta2, ...cartas2] = mao2.cartas;
 
 	mesa.jogador2 = {score: mesaAnterior.jogador2.score, carta: carta2};
 	mao2.cartas = cartas2;
 
 	if (mesa.jogador2.carta[mesa.criterio].value > mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
 		mesa.vencedores = ['jogador2'];
+		mao1.mestre = false;
+		mao2.mestre = true;
 	} else if (mesa.jogador2.carta[mesa.criterio].value === mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
 		mesa.vencedores.push('jogador2');
 	}
@@ -169,17 +172,20 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 	if (sala.jogador3) {
 		const jogador3Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador3`)
 			.orderBy('rodada', 'desc').limit(1).get();
-		let maos3 = jogador3Snapshot.docs.map(doc => ({...doc.data()}));
+		const maos3 = jogador3Snapshot.docs.map(doc => ({...doc.data()}));
 
-		let [mao] = maos3;
+		const [mao] = maos3;
 		mao3 = mao;
-		let [carta3, ...cartas3] = mao3.cartas;
+		const [carta3, ...cartas3] = mao3.cartas;
 
 		mesa.jogador3 = {score: mesaAnterior.jogador3.score, carta: carta3};
 		mao3.cartas = cartas3;
 
 		if (mesa.jogador3.carta[mesa.criterio].value > mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
 			mesa.vencedores = ['jogador3'];
+			mao1.mestre = false;
+			mao2.mestre = false;
+			mao3.mestre = true;
 		} else if (mesa.jogador3.carta[mesa.criterio].value === mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
 			mesa.vencedores.push('jogador3');
 		}
@@ -193,17 +199,21 @@ export const enviarCriterio = functions.https.onCall(async (data, context) => {
 	if (sala.jogador4) {
 		const jogador4Snapshot = await admin.firestore().collection(`salas/${sala.id}/jogador4`)
 			.orderBy('rodada', 'desc').limit(1).get();
-		let maos4 = jogador4Snapshot.docs.map(doc => ({...doc.data()}));
+		const maos4 = jogador4Snapshot.docs.map(doc => ({...doc.data()}));
 
-		let [mao] = maos4;
+		const [mao] = maos4;
 		mao4 = mao;
-		let [carta4, ...cartas4] = mao4.cartas;
+		const [carta4, ...cartas4] = mao4.cartas;
 
 		mesa.jogador4 = {score: mesaAnterior.jogador4.score, carta: carta4};
 		mao4.cartas = cartas4;
 
 		if (mesa.jogador4.carta[mesa.criterio].value > mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
 			mesa.vencedores = ['jogador4'];
+			mao1.mestre = false;
+			mao2.mestre = false;
+			mao3.mestre = false;
+			mao4.mestre = true;
 		} else if (mesa.jogador4.carta[mesa.criterio].value === mesa[mesa.vencedores[0]].carta[mesa.criterio].value) {
 			mesa.vencedores.push('jogador4');
 		}
