@@ -5,7 +5,7 @@ import {Actions, Effect, ofType} from '@ngrx/effects';
 import * as firebase from 'firebase';
 import {User} from 'firebase';
 import {from, of} from 'rxjs';
-import {catchError, map, pluck, switchMap, tap} from 'rxjs/operators';
+import {catchError, exhaustMap, map, pluck, tap} from 'rxjs/operators';
 import {
 	AtualizarUsuario,
 	ENTRAR,
@@ -50,7 +50,7 @@ export class UsuarioEffects {
 					return new firebase.auth.GoogleAuthProvider();
 			}
 		}),
-		switchMap((provider) =>
+		exhaustMap((provider) =>
 			from(this.fireAuth.auth.signInWithPopup(provider)).pipe(
 				map(result => result.user),
 				map((userInfo: User) => {
@@ -78,7 +78,7 @@ export class UsuarioEffects {
 	@Effect()
 	sair$ = this.actions$.pipe(
 		ofType(SAIR),
-		switchMap(() => from(this.fireAuth.auth.signOut()).pipe(
+		exhaustMap(() => from(this.fireAuth.auth.signOut()).pipe(
 			map(() => new SairSuccess()),
 			catchError((error) => {
 				return of(new SairFail(error));

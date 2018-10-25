@@ -5,7 +5,7 @@ import {MatDialog} from '@angular/material';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 import {EMPTY, from, of} from 'rxjs';
-import {catchError, filter, map, mergeMap, pluck, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {catchError, exhaustMap, filter, map, mergeMap, pluck, switchMap, tap, withLatestFrom} from 'rxjs/operators';
 import {RodadaDialogComponent} from '../../components/rodada-dialog/rodada-dialog.component';
 import {Mao} from '../../models/mao.model';
 import {Mesa} from '../../models/mesa.model';
@@ -86,7 +86,7 @@ export class BaralhoEffects {
 		ofType(ENVIAR_CRITERIO),
 		tap(() => this.store.dispatch(new ShowLoading(POR_FAVOR_AGUARDE))),
 		withLatestFrom(this.store.pipe(select(getSala)), this.store.pipe(select(getProximoCriterio))),
-		switchMap(([action, sala, criterio]: [Action, Sala, string]) => {
+		exhaustMap(([action, sala, criterio]: [Action, Sala, string]) => {
 			return this.fns.httpsCallable('enviarCriterio')({sala, criterio}).pipe(
 				map((result) => new EnviarCriterioSuccess(result)),
 				catchError((error) => of(new EnviarCriterioFail(error))),

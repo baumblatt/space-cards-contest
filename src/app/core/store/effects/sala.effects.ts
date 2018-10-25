@@ -6,7 +6,18 @@ import {Router} from '@angular/router';
 import {Actions, Effect, ofType} from '@ngrx/effects';
 import {Action, select, Store} from '@ngrx/store';
 import {EMPTY, from, of} from 'rxjs';
-import {catchError, distinctUntilKeyChanged, filter, map, mergeMap, pluck, switchMap, tap, withLatestFrom} from 'rxjs/operators';
+import {
+	catchError,
+	distinctUntilKeyChanged,
+	exhaustMap,
+	filter,
+	map,
+	mergeMap,
+	pluck,
+	switchMap,
+	tap,
+	withLatestFrom
+} from 'rxjs/operators';
 import {environment} from '../../../../environments/environment';
 import {SalaDialogComponent} from '../../components/sala-dialog/sala-dialog.component';
 import {Sala} from '../../models/sala.model';
@@ -54,7 +65,7 @@ export class SalaEffects {
 		ofType(CRIAR_SALA),
 		withLatestFrom(this.store.pipe(select(getUsuario))),
 		tap(() => this.store.dispatch(new ShowLoading(POR_FAVOR_AGUARDE))),
-		switchMap(([action, usuario]: [Action, Usuario]) => {
+		exhaustMap(([action, usuario]: [Action, Usuario]) => {
 			const id = this.db.createId();
 			const sala = {id, codigoAcesso: id.substr(0, 4), jogador1: usuario, iniciado: false};
 
@@ -89,14 +100,14 @@ export class SalaEffects {
 	@Effect()
 	entrarSala$ = this.actions$.pipe(
 		ofType(ENTRAR_SALA),
-		switchMap(() => this.dialog.open(SalaDialogComponent, {
+		exhaustMap(() => this.dialog.open(SalaDialogComponent, {
 			width: '300px',
 			disableClose: true
 		}).afterClosed()),
 		filter(codigoAcesso => !!codigoAcesso),
 		tap(() => this.store.dispatch(new ShowLoading(POR_FAVOR_AGUARDE))),
 		withLatestFrom(this.store.pipe(select(getUsuario))),
-		switchMap(([codigoAcesso, jogador]: [string, Usuario]) => {
+		exhaustMap(([codigoAcesso, jogador]: [string, Usuario]) => {
 			return this.fns.httpsCallable('entrarSala')({codigoAcesso, jogador}).pipe(
 				map(retorno => (retorno.code === 'unavailable') ? new EntrarSalaFail(retorno) : new EntrarSalaSuccess(retorno)),
 				catchError((err) => of(new EntrarSalaFail(err))),
@@ -129,7 +140,7 @@ export class SalaEffects {
 		ofType(INICIAR_JOGO),
 		pluck('payload'),
 		tap(() => this.store.dispatch(new ShowLoading(POR_FAVOR_AGUARDE))),
-		switchMap((sala) => this.fns.httpsCallable('iniciarJogo')(sala).pipe(
+		exhaustMap((sala) => this.fns.httpsCallable('iniciarJogo')(sala).pipe(
 			map((result) => new IniciarJogoSuccess(result)),
 			catchError((error) => of(new IniciarJogoFail(error))),
 		)),
